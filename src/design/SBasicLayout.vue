@@ -29,7 +29,7 @@ import SHeader from "@/design/header/SHeader.vue";
 .layout {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100svh;
 
     .header-wrapper, .footer-wrapper {
         height: 64px;
