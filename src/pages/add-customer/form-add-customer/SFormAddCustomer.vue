@@ -21,6 +21,7 @@
             type="email"
         />
         <SButton
+            big
             primary
             @click="saveCustomer"
         >

@@ -26,6 +26,7 @@
             type="password"
         />
         <SButton
+            big
             primary
             @click="saveCoach"
         >
