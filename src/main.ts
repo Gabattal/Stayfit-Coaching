@@ -25,7 +25,7 @@ const customTheme = {
         surface: "#1f262e",
         warning: "#FB8C00"
     },
-    dark: false
+    dark: true
 };
 
 const vuetify = createVuetify({

@@ -3,9 +3,9 @@
         v-model="snackbarState"
         absolute
         color="red"
-        top
+        location="top"
     >
-        {{ snackbarText }}
+        Mauvais mot de passe, la prochaine fois c'est 20 burpees.
     </v-snackbar>
     <div class="form">
         <v-text-field
@@ -18,13 +18,13 @@
             label="Mot de passe"
             type="password"
         />
-        <v-btn
-            size="large"
-            variant="tonal"
+        <SButton
+            big
+            primary
             @click="connection"
         >
             Connexion
-        </v-btn>
+        </SButton>
     </div>
 </template>
 
@@ -38,11 +38,11 @@ export default {
 import { useFirebaseAuth } from "vuefire";
 import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { ref } from "vue";
+import SButton from "@/design/form/SButton.vue";
 
 const mail = ref("");
 const password = ref("");
 const snackbarState = ref(false);
-const snackbarText = "Mauvais mot de passe, la prochaine fois c'est 20 burpees.";
 
 async function connection(){
     const auth = useFirebaseAuth();

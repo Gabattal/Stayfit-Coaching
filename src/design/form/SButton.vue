@@ -1,7 +1,7 @@
 <template>
     <button
         class="button"
-        :class="{primary}"
+        :class="{primary, big}"
     >
         <slot />
     </button>
@@ -15,6 +15,7 @@ export default {
 
 <script setup lang="ts">
 const props = defineProps<{
+    big?: boolean;
     primary?: boolean;
 }>();
 </script>
@@ -27,6 +28,11 @@ const props = defineProps<{
 
     &.primary{
         background: var(--color-primary);
+    }
+
+    &.big {
+        font-size: 1.25rem;
+        padding: var(--length-padding-xs) var(--length-padding-m);
     }
 }
 </style>
