@@ -46,6 +46,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { ref } from "vue";
 import { db } from "@/firebase";
+import { router } from "@/router";
 
 const last_name = ref("");
 const first_name = ref("");
@@ -67,6 +68,7 @@ async function saveCoach(){
         "phone": phone.value
     };
     await setDoc(doc(db,"users", localId), data);
+    await router.push("/admin");
 
     console.log(response.user.uid);
 }
