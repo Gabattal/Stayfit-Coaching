@@ -40,12 +40,11 @@ export default {
 <script setup lang="ts">
 import { query, where, getDocs } from "firebase/firestore";
 import { onMounted, ref } from "vue";
-import { usersRef } from "@/firebase";
+import { db, TUserCollection } from "@/firebase";
 import { router } from "@/router";
 
-type Coach = {
-    id: string; first_name: string; isAdmin: boolean; last_name: string; mail: string; phone: string;
-}
+type Coach = TUserCollection & {id: string};
+
 const coaches = ref<Coach[]>([]);
 
 async function goToCoachView(id: string, name: string) {
@@ -53,7 +52,7 @@ async function goToCoachView(id: string, name: string) {
 }
 
 const getCoaches = async () => {
-    const q = query(usersRef, where("isAdmin", "==", false));
+    const q = query(db.users, where("isAdmin", "==", false));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         coaches.value.push({
@@ -80,7 +79,6 @@ onMounted(async () => {
     .card {
         padding: var(--length-padding-m);
         background: var(--color-background-light);
-        cursor: pointer;
         border-radius: var(--length-radius-m);
         display: flex;
         flex-direction: column;
@@ -90,6 +88,7 @@ onMounted(async () => {
         .name{
             font-weight: bold;
             font-size: 1.25rem;
+            cursor: pointer;
         }
 
         .info {

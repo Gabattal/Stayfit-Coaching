@@ -40,7 +40,7 @@ export default {
 <script setup lang="ts">
 import { query, getDocs, collection } from "firebase/firestore";
 import { onMounted, ref } from "vue";
-import { db } from "@/firebase";
+import { firestore } from "@/firebase";
 import { router } from "@/router";
 const urlParams = new URLSearchParams(window.location.search);
 const coachId = urlParams.get("coachId")?.toString();
@@ -56,7 +56,7 @@ async function goToCustomerView(id: string, name: string) {
 
 const getcustomers = async () => {
     if (coachId){
-        const q = query(collection(db, "users", coachId, "customers"));
+        const q = query(collection(firestore, "users", coachId, "customers"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             customers.value.push({

@@ -37,7 +37,7 @@ export default {
 
 <script setup lang="ts">
 
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc } from "firebase/firestore";
 import { ref } from "vue";
 import SButton from "@/design/form/SButton.vue";
 import { db } from "@/firebase";
@@ -51,7 +51,7 @@ const coachId = urlParams.get("coachId")?.toString();
 
 async function saveCustomer() {
     if (coachId) {
-        await addDoc(collection(db, "users", coachId, "customers"), {
+        await addDoc(collection(doc(db.users, coachId),"customers"), {
             "first_name": first_name.value,
             "last_name": last_name.value,
             "mail": mail.value,

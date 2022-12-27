@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, CollectionReference, DocumentData, doc } from "firebase/firestore";
+import { getFirestore, collection, DocumentData, CollectionReference, QueryDocumentSnapshot } from "firebase/firestore";
 
 export const firebaseApp = initializeApp({
     apiKey: "AIzaSyBn8QbfDSPy3wtFpUay3SdHj1p-Kx_B6cA",
@@ -11,21 +11,28 @@ export const firebaseApp = initializeApp({
     storageBucket: "stayfit-c2b5e.appspot.com"
 });
 
-export const db = getFirestore(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
 
-const createCollection = <T = DocumentData>(collectionName: string) => {
-    return collection(db, collectionName) as unknown as CollectionReference<T>;
-};
+const converter = <T>() => ({
+    fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as T,
+    toFirestore: (data: T) => data as DocumentData
+});
 
-type TUserCollection = {
+const dataPoint = <T>(collectionPath: string) => collection(firestore, collectionPath).withConverter(converter<T>());
+
+
+export type TUserCollection = {
+    customers?: CollectionReference<TUserCollection>;
     first_name: string;
-    isAdmin: boolean;
+    isAdmin?: boolean;
     last_name: string;
     mail: string;
     phone: string;
 };
 
-export const usersRef = createCollection<TUserCollection>("users");
+export const db = {
+    users: dataPoint<TUserCollection>("users")
+};
 
 
 

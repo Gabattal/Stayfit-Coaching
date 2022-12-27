@@ -4,7 +4,7 @@ import { User } from "firebase/auth";
 import { useFirebaseAuth } from "vuefire";
 import { doc, getDoc } from "firebase/firestore";
 import { router } from "@/router";
-import { usersRef } from "@/firebase";
+import { db } from "@/firebase";
 
 export const useUserStore = defineStore("user", () => {
     const user = ref<User>();
@@ -38,7 +38,7 @@ export const useUserStore = defineStore("user", () => {
     }
 
     async function getUserAdmin(userId: string) {
-        const userDoc = await getDoc(doc(usersRef, userId));
+        const userDoc = await getDoc(doc(db.users, userId));
         return !!userDoc.data()?.isAdmin;
     }
 

@@ -17,7 +17,7 @@
             Ajouter
         </SButton>
         <SBackButton
-            class="button"
+            class="back-button"
             primary
         >
             Retour
@@ -35,7 +35,6 @@ export default {
 
 import SHeader from "@/design/header/SHeader.vue";
 import SBackButton from "@/design/back-button/SBackButton.vue";
-import STableCoach from "@/pages/admin/table/STableCoach.vue";
 import SButton from "@/design/form/SButton.vue";
 import { router } from "@/router";
 import StableCustomer from "@/pages/coach/table/STableCustomer.vue";
@@ -74,10 +73,13 @@ async function addCustomer() {
     bottom: 0;
     width: 100%;
     background-color: var(--color-background);
-    display: flex;
-    justify-content: space-around;
     .button{
-        margin: var(--length-margin-xs) 0;
+        margin: var(--length-margin-xs);
+    }
+    .back-button{
+        position: absolute;
+        right: 0;
+        margin: var(--length-margin-xs);
     }
 }
 </style>

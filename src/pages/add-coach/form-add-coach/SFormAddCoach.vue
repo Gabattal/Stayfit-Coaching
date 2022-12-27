@@ -44,7 +44,7 @@ export default {
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { ref } from "vue";
-import { db } from "@/firebase";
+import { firestore } from "@/firebase";
 import { router } from "@/router";
 import SButton from "@/design/form/SButton.vue";
 
@@ -66,7 +66,7 @@ async function saveCoach(){
         "mail": mail.value,
         "phone": phone.value
     };
-    await setDoc(doc(db,"users", localId), data);
+    await setDoc(doc(firestore,"users", localId), data);
     await router.push("/admin");
 
     console.log(response.user.uid);
