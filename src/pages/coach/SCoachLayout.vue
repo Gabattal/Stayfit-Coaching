@@ -2,6 +2,9 @@
     <SHeader class="header" />
     <div class="title">
         {{ coachName }}
+        <div>
+            Liste des adhérents
+        </div>
     </div>
     <div class="layout">
         <div class="content">
@@ -52,6 +55,7 @@ async function addCustomer() {
 
 .title{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: var(--length-margin-xs);
