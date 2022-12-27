@@ -17,7 +17,8 @@ import SConnectionForm from "./components/SConnectionForm.vue";
 
 <style scoped lang="scss">
 .home {
-    height: 100svh;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     display: flex;
     flex-direction: column;
     align-items: center;
