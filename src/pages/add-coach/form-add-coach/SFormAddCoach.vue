@@ -76,8 +76,7 @@ async function saveCoach(){
 
 <style scoped lang="scss">
 .form {
-    width: 480px;
-    max-width: calc(100% - 2 * var(--length-margin-m));
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;

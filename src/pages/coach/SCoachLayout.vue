@@ -1,31 +1,34 @@
 <template>
-    <SHeader class="header" />
-    <div class="title">
-        {{ coachName }}
-        <div>
-            Liste des adhérents
+    <SBasicLayout>
+        <div class="title">
+            {{ coachName }}
+            <div>
+                Liste des adhérents
+            </div>
         </div>
-    </div>
-    <div class="layout">
-        <div class="content">
-            <StableCustomer />
+        <div class="layout">
+            <div class="content">
+                <StableCustomer />
+            </div>
         </div>
-    </div>
-    <div class="footer">
-        <SButton
-            class="button"
-            primary
-            @click="addCustomer"
-        >
-            Ajouter
-        </SButton>
-        <SBackButton
-            class="back-button"
-            primary
-        >
-            Retour
-        </SBackButton>
-    </div>
+        <template #footer>
+            <div class="footer">
+                <SButton
+                    class="button"
+                    primary
+                    @click="addCustomer"
+                >
+                    Ajouter
+                </SButton>
+                <SBackButton
+                    class="back-button"
+                    primary
+                >
+                    Retour
+                </SBackButton>
+            </div>
+        </template>
+    </SBasicLayout>
 </template>
 
 <script lang="ts">
@@ -35,12 +38,12 @@ export default {
 </script>
 
 <script setup lang="ts">
-
-import SHeader from "@/design/header/SHeader.vue";
 import SBackButton from "@/design/back-button/SBackButton.vue";
 import SButton from "@/design/form/SButton.vue";
 import { router } from "@/router";
 import StableCustomer from "@/pages/coach/table/STableCustomer.vue";
+import SBasicLayout from "@/design/SBasicLayout.vue";
+
 const urlParams = new URLSearchParams(window.location.search);
 const coachId = urlParams.get("coachId");
 const coachName = urlParams.get("coachName");
@@ -53,7 +56,7 @@ async function addCustomer() {
 
 <style scoped lang="scss">
 
-.title{
+.title {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -62,28 +65,10 @@ async function addCustomer() {
     font-weight: bold;
 }
 
-.layout {
-    display: flex;
-    flex-direction: column;
-    margin: var(--length-margin-m) var(--length-margin-m);
-
-    .header{
-        width: 100%;
-    }
-}
-
 .footer {
-    position: fixed;
-    bottom: 0;
+    display: flex;
     width: 100%;
-    background-color: var(--color-background);
-    .button{
-        margin: var(--length-margin-xs);
-    }
-    .back-button{
-        position: absolute;
-        right: 0;
-        margin: var(--length-margin-xs);
-    }
+    justify-content: space-between;
 }
+
 </style>

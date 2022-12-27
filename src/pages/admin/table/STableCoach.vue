@@ -22,7 +22,7 @@
                     class="phone"
                     :href="`tel:${item.phone}`"
                 >
-                    {{ item.phone }}
+                    {{ displayPhone(item.phone) }}
                 </a>
             </div>
         </div>
@@ -42,6 +42,7 @@ import { query, where, getDocs } from "firebase/firestore";
 import { onMounted, ref } from "vue";
 import { db, TUserCollection } from "@/firebase";
 import { router } from "@/router";
+import { displayPhone } from "@/lib/user";
 
 type Coach = TUserCollection & {id: string};
 
