@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        Stayfit Bonjouuuur ??
+        Stayfit-Coaching
         <SDisconnectButton />
     </div>
 </template>

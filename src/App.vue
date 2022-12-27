@@ -1,5 +1,7 @@
 <template>
-    <router-view></router-view>
+    <Suspense>
+        <router-view />
+    </Suspense>
 </template>
 
 <script lang="ts">
@@ -9,8 +11,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import {useUserStore} from "@/stores/user";
-
+import { useUserStore } from "@/stores/user";
 useUserStore();
 </script>
 

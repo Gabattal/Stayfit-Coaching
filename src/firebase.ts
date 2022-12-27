@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection } from "firebase/firestore";
+import { getFirestore, collection, CollectionReference, DocumentData } from "firebase/firestore";
 
 export const firebaseApp = initializeApp({
     apiKey: "AIzaSyBn8QbfDSPy3wtFpUay3SdHj1p-Kx_B6cA",
@@ -11,8 +11,11 @@ export const firebaseApp = initializeApp({
     storageBucket: "stayfit-c2b5e.appspot.com"
 });
 
-// used for the firestore refs
-const db = getFirestore(firebaseApp);
+export const db = getFirestore(firebaseApp);
 
-// here we can export reusable database references
-export const usersRef = collection(db, "users");
+const createCollection = <T = DocumentData>(collectionName: string) => {
+    return collection(db, collectionName) as unknown as CollectionReference<T>;
+};
+
+type TUserCollection = {first_name: string; isAdmin: boolean;last_name: string; mail: string; phone: string};
+export const usersRef = createCollection<TUserCollection>("users");

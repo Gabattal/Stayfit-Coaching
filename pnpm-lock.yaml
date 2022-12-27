@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@histoire/plugin-vue': ^0.12.4
+  '@mdi/font': ^7.1.96
   '@typescript-eslint/eslint-plugin': ^5.47.1
   '@typescript-eslint/parser': ^5.47.1
   '@vitejs/plugin-vue': ^4.0.0
@@ -15,6 +16,7 @@ specifiers:
   eslint-plugin-vue: ^9.8.0
   firebase: ^9.15.0
   histoire: ^0.12.4
+  material-design-icons-iconfont: ^6.7.0
   pinia: ^2.0.28
   sass: ^1.57.1
   typescript: ^4.9.4
@@ -27,6 +29,7 @@ specifiers:
 
 dependencies:
   firebase: 9.15.0
+  material-design-icons-iconfont: 6.7.0
   pinia: 2.0.28_prq2uz4lho2pwp6irk4cfkrxwu
   vue: 3.2.45
   vue-router: 4.1.6_vue@3.2.45
@@ -35,6 +38,7 @@ dependencies:
 
 devDependencies:
   '@histoire/plugin-vue': 0.12.4_jqvjr2esqd34alwy6xppejkevm
+  '@mdi/font': 7.1.96
   '@typescript-eslint/eslint-plugin': 5.47.1_txmweb6yn7coi7nfrp22gpyqmy
   '@typescript-eslint/parser': 5.47.1_lzzuuodtsqwxnvqeq4g4likcqa
   '@vitejs/plugin-vue': 4.0.0_vite@4.0.3+vue@3.2.45
@@ -940,6 +944,10 @@ packages:
     resolution: {integrity: sha512-f9319YG1A/3ysgUE3bqCHEd7g+3ZZ71MWlwEc42mpnLVYXgfJJgtu1XAyBB4Kz8FmqmnFe9caopDqKeMMMAU6g==}
     dependencies:
       '@lezer/common': 1.0.2
+    dev: true
+
+  /@mdi/font/7.1.96:
+    resolution: {integrity: sha512-Imag6npmfkBDi2Ze2jiZVAPTDIKLxhz2Sx82xJ2zctyAU5LYJejLI5ChnDwiD9bMkQfVuzEsI98Q8toHyC+HCg==}
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
@@ -3011,6 +3019,10 @@ packages:
       mdurl: 1.0.1
       uc.micro: 1.0.6
     dev: true
+
+  /material-design-icons-iconfont/6.7.0:
+    resolution: {integrity: sha512-lSj71DgVv20kO0kGbs42icDzbRot61gEDBLQACzkUuznRQBUYmbxzEkGU6dNBb5fRWHMaScYlAXX96HQ4/cJWA==}
+    dev: false
 
   /mdurl/1.0.1:
     resolution: {integrity: sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g==}
