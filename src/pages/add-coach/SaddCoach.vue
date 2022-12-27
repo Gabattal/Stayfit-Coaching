@@ -3,7 +3,9 @@
     <div class="container">
         <SFormAddCoach />
     </div>
-    <SBackButton class="button" />
+    <div class="footer">
+        <SBackButton class="button" />
+    </div>
 </template>
 
 <script lang="ts">
@@ -28,9 +30,14 @@ import SFormAddCoach from "@/pages/add-coach/form-add-coach/SFormAddCoach.vue";
     justify-content: center;
 }
 
-.button{
+.button {
+    margin: var(--length-margin-xs);
+}
+
+.footer {
     position: fixed;
-    bottom: var(--length-margin-m);
-    left: var(--length-margin-m);
+    bottom: 0;
+    width: 100%;
+    background-color: var(--color-background);
 }
 </style>

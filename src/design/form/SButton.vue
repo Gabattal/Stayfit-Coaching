@@ -15,7 +15,7 @@ export default {
 
 <script setup lang="ts">
 const props = defineProps<{
-    primary: boolean;
+    primary?: boolean;
 }>();
 </script>
 

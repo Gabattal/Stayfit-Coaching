@@ -1,7 +1,7 @@
 <template>
     <div class="table-coach">
         <div
-            v-for="item in coaches"
+            v-for="item in customers"
             :key="item.id"
             class="card"
         >
@@ -32,42 +32,48 @@
 
 <script lang="ts">
 export default {
-    name: "STableCoach",
-    coaches: "test"
+    name: "StableCustomer",
+    customers: "test"
 };
 </script>
 
 <script setup lang="ts">
-import { query, where, getDocs } from "firebase/firestore";
+import { query, getDocs, collection } from "firebase/firestore";
 import { onMounted, ref } from "vue";
-import { usersRef } from "@/firebase";
+import { db } from "@/firebase";
 import { router } from "@/router";
+const urlParams = new URLSearchParams(window.location.search);
+const coachId = urlParams.get("coachId")?.toString();
 
-type Coach = {
-    id: string; first_name: string; isAdmin: boolean; last_name: string; mail: string; phone: string;
+type Customer = {
+    id: string; first_name: string; last_name: string; mail: string; phone: string;
 }
-const coaches = ref<Coach[]>([]);
+const customers = ref<Customer[]>([]);
 
-async function goToCoachView(id: string, name: string) {
-    await router.push({ path: "/coach", query: { coachId: id, coachName: name } });
+async function goToCustomerView(id: string, name: string) {
+    await router.push({ path: "/customer", query: { customerId: id, customerName: name } });
 }
 
-const getCoaches = async () => {
-    const q = query(usersRef, where("isAdmin", "==", false));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-        coaches.value.push({
-            ...doc.data(),
-            id: doc.id
+const getcustomers = async () => {
+    if (coachId){
+        const q = query(collection(db, "users", coachId, "customers"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            customers.value.push({
+                ...doc.data(),
+                id: doc.id
+            });
         });
-    });
+    }
 
-    coaches.value.sort((coachA, coachB) => coachA.last_name.localeCompare(coachB.last_name));
+    customers.value.sort((customerA, customerB) => customerA.last_name.localeCompare(customerB.last_name));
 };
 
 onMounted(async () => {
-    await getCoaches();
+    await getcustomers();
+    console.log(customers.value);
 });
+
 </script>
 
 <style scoped lang="scss">
@@ -75,7 +81,6 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     gap: var(--length-gap-m);
-
 
     .card {
         padding: var(--length-padding-m);
@@ -85,7 +90,6 @@ onMounted(async () => {
         display: flex;
         flex-direction: column;
         gap: var(--length-gap-xs);
-
 
         .name{
             font-weight: bold;

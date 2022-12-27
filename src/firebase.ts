@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, CollectionReference, DocumentData } from "firebase/firestore";
+import { getFirestore, collection, CollectionReference, DocumentData, doc } from "firebase/firestore";
 
 export const firebaseApp = initializeApp({
     apiKey: "AIzaSyBn8QbfDSPy3wtFpUay3SdHj1p-Kx_B6cA",
@@ -26,3 +26,6 @@ type TUserCollection = {
 };
 
 export const usersRef = createCollection<TUserCollection>("users");
+
+
+

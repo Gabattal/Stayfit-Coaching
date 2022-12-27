@@ -1,17 +1,20 @@
 <template>
     <SHeader class="header" />
-    <div class="layout">
-        <div class="content">
-            <STableCoach />
-        </div>
+    <div class="title">
+        Liste des coachs
     </div>
-    <SButton
-        class="button"
-        primary
-        @click="addCoach"
-    >
-        Ajouter
-    </SButton>
+    <div class="layout">
+        <STableCoach />
+    </div>
+    <div class="footer">
+        <SButton
+            class="button"
+            primary
+            @click="addCoach"
+        >
+            Ajouter
+        </SButton>
+    </div>
 </template>
 
 <script lang="ts">
@@ -26,25 +29,38 @@ import STableCoach from "@/pages/admin/table/STableCoach.vue";
 import { router } from "@/router";
 import SButton from "@/design/form/SButton.vue";
 
-async function addCoach(){
+async function addCoach() {
     await router.push("/add-coach");
 }
 </script>
 
 <style scoped lang="scss">
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--length-margin-xs);
+    font-weight: bold;
+}
+
 .layout {
     display: flex;
     flex-direction: column;
     margin: var(--length-margin-m) var(--length-margin-m);
 
-    .header{
+    .header {
         width: 100%;
     }
 }
 
- .button{
-     position: fixed;
-     bottom: var(--length-margin-m);
-     left: var(--length-margin-m);
- }
+.button {
+    margin: var(--length-margin-xs);
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--color-background);
+}
 </style>

@@ -56,7 +56,6 @@ const password = ref("");
 
 async function saveCoach(){
 
-
     const auth = getAuth();
     const response = await createUserWithEmailAndPassword(auth, mail.value, password.value);
     const localId = response.user.uid;

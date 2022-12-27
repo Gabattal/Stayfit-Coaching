@@ -18,7 +18,7 @@ import SDisconnectButton from "@/design/header/buttons/SDisconnectButton.vue";
 <style scoped lang="scss">
  .header{
      background: var(--color-background-light);
-     height: 48px;
+     height: 64px;
      display: flex;
      align-items: center;
      justify-content: space-between;
