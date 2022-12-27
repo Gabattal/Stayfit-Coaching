@@ -1,9 +1,9 @@
 <template>
     <SHeader />
-    <SBackButton />
     <div class="container">
         <SFormAddCoach />
     </div>
+    <SBackButton class="button" />
 </template>
 
 <script lang="ts">
@@ -26,5 +26,11 @@ import SFormAddCoach from "@/pages/add-coach/form-add-coach/SFormAddCoach.vue";
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.button{
+    position: fixed;
+    bottom: var(--length-margin-m);
+    left: var(--length-margin-m);
 }
 </style>

@@ -1,13 +1,9 @@
 <template>
-    <div class="button">
-        <v-btn
-            size="small"
-            variant="tonal"
-            @click="GoBack"
-        >
-            Retour
-        </v-btn>
-    </div>
+    <SButton
+        @click="GoBack"
+    >
+        Retour
+    </SButton>
 </template>
 
 <script lang="ts">
@@ -18,6 +14,7 @@ export default {
 
 <script setup lang="ts">
 import { router } from "@/router";
+import SButton from "@/design/form/SButton.vue";
 
 async function GoBack(){
     await router.push("/admin");
@@ -25,7 +22,5 @@ async function GoBack(){
 </script>
 
 <style scoped lang="scss">
-.button{
-    padding: var(--length-padding-m);
-}
+
 </style>

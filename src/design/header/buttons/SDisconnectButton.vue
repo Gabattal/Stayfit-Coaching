@@ -1,11 +1,10 @@
 <template>
-    <v-btn
-        size="small"
-        variant="tonal"
+    <SButton
+        primary
         @click="disconnect"
     >
         Déconnexion
-    </v-btn>
+    </SButton>
 </template>
 
 <script lang="ts">
@@ -16,6 +15,7 @@ export default {
 
 <script setup lang="ts">
 import { useFirebaseAuth } from "vuefire";
+import SButton from "@/design/form/SButton.vue";
 
 async function disconnect(){
     const auth = useFirebaseAuth();

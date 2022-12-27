@@ -17,5 +17,12 @@ const createCollection = <T = DocumentData>(collectionName: string) => {
     return collection(db, collectionName) as unknown as CollectionReference<T>;
 };
 
-type TUserCollection = {first_name: string; isAdmin: boolean;last_name: string; mail: string; phone: string};
+type TUserCollection = {
+    first_name: string;
+    isAdmin: boolean;
+    last_name: string;
+    mail: string;
+    phone: string;
+};
+
 export const usersRef = createCollection<TUserCollection>("users");

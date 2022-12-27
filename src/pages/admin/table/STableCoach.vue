@@ -1,60 +1,33 @@
-
 <template>
-    <Suspense>
-        <template #default>
-            <div>
-                <v-table
-                    fixed-header
-                    theme="customTheme"
-                >
-                    <thead>
-                        <tr>
-                            <th class="text-center">
-                                Nom
-                            </th>
-                            <th class="text-center">
-                                Prénom
-                            </th>
-                            <th class="text-center">
-                                Mail
-                            </th>
-                            <th class="text-center">
-                                Téléphone
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="item in coaches"
-                            :key="item.id"
-                        >
-                            <td
-                                class="text-center name"
-                                @click="goToCoachView(item.id)"
-                            >
-                                {{ item.last_name }}
-                            </td>
-                            <td class="text-center">
-                                {{ item.first_name }}
-                            </td>
-                            <td class="text-center">
-                                {{ item.mail }}
-                            </td>
-                            <td class="text-center">
-                                {{ item.phone }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </v-table>
+    <div class="table-coach">
+        <div
+            v-for="item in coaches"
+            :key="item.id"
+            class="card"
+        >
+            <div
+                class="name"
+                @click="goToCoachView(item.id)"
+            >
+                {{ item.last_name }} {{ item.first_name }}
             </div>
-        </template>
-        <template #fallback>
-            loading
-        </template>
-    </Suspense>
+            <div class="info">
+                <a
+                    class="mail"
+                    :href="`mailto:${item.mail}`"
+                >
+                    {{ item.mail }}
+                </a>
+                <a
+                    class="phone"
+                    :href="`tel:${item.phone}`"
+                >
+                    {{ item.phone }}
+                </a>
+            </div>
+        </div>
+    </div>
 </template>
-
-
 
 
 <script lang="ts">
@@ -65,42 +38,63 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/firebase";
+import { query, where, getDocs } from "firebase/firestore";
+import { onMounted, ref } from "vue";
+import { usersRef } from "@/firebase";
+import { router } from "@/router";
+
 type Coach = {
     id: string; first_name: string; isAdmin: boolean; last_name: string; mail: string; phone: string;
 }
-const coaches: Coach[] = [];
+const coaches = ref<Coach[]>([]);
 
-function goToCoachView(id: string){
-    console.log(id);
+async function goToCoachView(id: string) {
+    await router.push({ path: "/coach", query: { coachId: id } });
 }
 
 const getCoaches = async () => {
-    const q = query(collection(db, "users"), where("isAdmin", "==", false));
+    const q = query(usersRef, where("isAdmin", "==", false));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        const data = {
-            "id": doc.id,
-            "first_name": doc.data().first_name,
-            "isAdmin": doc.data().isAdmin,
-            "last_name": doc.data().last_name,
-            "mail": doc.data().mail,
-            "phone": doc.data().phone
-        };
-        coaches.push(data);
+        coaches.value.push({
+            ...doc.data(),
+            id: doc.id
+        });
     });
+
+    coaches.value.sort((coachA, coachB) => coachA.last_name.localeCompare(coachB.last_name));
 };
 
-await getCoaches();
-console.log(coaches);
+onMounted(async () => {
+    await getCoaches();
+});
 </script>
 
 <style scoped lang="scss">
-.name{
-    cursor: pointer;
-    &:hover{
-        color: var(--color-content-softer)
+.table-coach {
+    display: flex;
+    flex-direction: column;
+    gap: var(--length-gap-m);
+
+    .card {
+        padding: var(--length-padding-m);
+        background: var(--color-background-light);
+        cursor: pointer;
+        border-radius: var(--length-radius-m);
+        display: flex;
+        flex-direction: column;
+        gap: var(--length-gap-xs);
+
+        .name{
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .info {
+            color : var(--color-content-softer);
+            display: flex;
+            justify-content: space-between;
+        }
     }
 }
 </style>

@@ -4,6 +4,7 @@ import SHomeLayout from "@/pages/home/SHomeLayout.vue";
 import SAdminLayout from "@/pages/admin/SAdminLayout.vue";
 import SaddCustomer from "@/pages/add-customer/SaddCustomer.vue";
 import SaddCoach from "@/pages/add-coach/SaddCoach.vue";
+import SCoachLayout from "@/pages/coach/SCoachLayout.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -11,6 +12,7 @@ export const router = createRouter({
         { component: SConnectionLayout, path: "/" },
         { component: SHomeLayout, path: "/home" },
         { component: SAdminLayout, path: "/admin" },
+        { component: SCoachLayout, path: "/coach" },
         { component: SaddCustomer, path: "/add-customer" },
         { component: SaddCoach, path: "/add-coach" }
     ]

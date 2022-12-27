@@ -16,19 +16,18 @@
 
 <script lang="ts">
 export default {
-    name: "SAdminLayout"
+    name: "SCoachLayout"
 };
 </script>
 
 <script setup lang="ts">
-import SHeader from "@/design/header/SHeader.vue";
-import STableCoach from "@/pages/admin/table/STableCoach.vue";
-import { router } from "@/router";
-import SButton from "@/design/form/SButton.vue";
 
-async function addCoach(){
-    await router.push("/add-coach");
-}
+import SHeader from "@/design/header/SHeader.vue";
+import SBackButton from "@/design/back-button/SBackButton.vue";
+import STableCoach from "@/pages/admin/table/STableCoach.vue";
+import SButton from "@/design/form/SButton.vue";
+const urlParams = new URLSearchParams(window.location.search);
+const coachId = urlParams.get("coachId");
 </script>
 
 <style scoped lang="scss">
@@ -42,9 +41,9 @@ async function addCoach(){
     }
 }
 
- .button{
-     position: fixed;
-     bottom: var(--length-margin-m);
-     left: var(--length-margin-m);
- }
+.button{
+    position: fixed;
+    bottom: var(--length-margin-m);
+    left: var(--length-margin-m);
+}
 </style>

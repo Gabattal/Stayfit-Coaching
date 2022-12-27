@@ -25,13 +25,12 @@
             label="Mot de passe"
             type="password"
         />
-        <v-btn
-            size="large"
-            variant="tonal"
+        <SButton
+            primary
             @click="saveCoach"
         >
             Enregistrer
-        </v-btn>
+        </SButton>
     </div>
 </template>
 
@@ -47,6 +46,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { ref } from "vue";
 import { db } from "@/firebase";
 import { router } from "@/router";
+import SButton from "@/design/form/SButton.vue";
 
 const last_name = ref("");
 const first_name = ref("");
