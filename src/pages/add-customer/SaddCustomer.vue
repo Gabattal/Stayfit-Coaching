@@ -19,7 +19,6 @@ export default {
 
 <script setup lang="ts">
 
-import SHeader from "@/design/header/SHeader.vue";
 import SBackButton from "@/design/back-button/SBackButton.vue";
 import SFormAddCustomer from "@/pages/add-customer/form-add-customer/SFormAddCustomer.vue";
 import SBasicLayout from "@/design/SBasicLayout.vue";

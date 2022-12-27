@@ -3,7 +3,7 @@ import SConnectionLayout from "./pages/connection/SLayout.vue";
 import SHomeLayout from "@/pages/home/SHomeLayout.vue";
 import SAdminLayout from "@/pages/admin/SAdminLayout.vue";
 import SaddCustomer from "@/pages/add-customer/SaddCustomer.vue";
-import SaddCoach from "@/pages/add-coach/SaddCoach.vue";
+import SAddCoach from "@/pages/add-coach/SaddCoach.vue";
 import SCoachLayout from "@/pages/coach/SCoachLayout.vue";
 
 export const router = createRouter({
@@ -14,6 +14,6 @@ export const router = createRouter({
         { component: SAdminLayout, path: "/admin" },
         { component: SCoachLayout, path: "/coach" },
         { component: SaddCustomer, path: "/add-customer" },
-        { component: SaddCoach, path: "/add-coach" }
+        { component: SAddCoach, path: "/add-coach" }
     ]
 });
