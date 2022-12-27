@@ -1,4 +1,12 @@
 <template>
+    <v-snackbar
+        v-model="snackbarState"
+        absolute
+        color="red"
+        top
+    >
+        {{ snackbarText }}
+    </v-snackbar>
     <div class="form">
         <v-text-field
             v-model="mail"
@@ -33,6 +41,8 @@ import { ref } from "vue";
 
 const mail = ref("");
 const password = ref("");
+const snackbarState = ref(false);
+const snackbarText = "Mauvais mot de passe, la prochaine fois c'est 20 burpees.";
 
 async function connection(){
     const auth = useFirebaseAuth();
@@ -42,7 +52,13 @@ async function connection(){
     }
 
     await setPersistence(auth, browserLocalPersistence);
-    await signInWithEmailAndPassword(auth, mail.value, password.value);
+
+    try {
+        await signInWithEmailAndPassword(auth, mail.value, password.value);
+    }
+    catch (error){
+        snackbarState.value = true;
+    }
 }
 
 </script>
