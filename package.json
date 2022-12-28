@@ -18,7 +18,7 @@
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vuefire": "^3.0.0",
-    "vuetify": "^2.6.13"
+    "vuetify": "^3.0.6"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.12.4",
