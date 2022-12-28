@@ -4,9 +4,8 @@
             v-model="selectPack"
             item-title="pack"
             :items="items"
-            label="Select"
+            label="Pack"
             return-object
-            single-line
         />
 
         <v-select
@@ -15,15 +14,22 @@
             item-title="pack"
             item-value="value"
             :items="formulasMerry"
-            label="Select"
             return-object
-            single-line
         />
         <v-text-field
             v-if="selectPack.pack==='MERRY'"
             v-model="numberOfMonths"
             label="Nombre de mois"
             type="text"
+        />
+        <v-select
+            v-if="selectPack.pack==='NAKAMA'"
+            v-model="numberOfPeopleCoached"
+            item-title="value"
+            item-value="value"
+            :items="numberOfPeople"
+            label="Nombre de personnes"
+            return-object
         />
         <v-text-field
             v-if="selectPack.pack==='NAKAMA'"
@@ -67,7 +73,7 @@ export default {
 import { ref } from "vue";
 import { addDoc, collection, doc } from "firebase/firestore";
 import SButton from "@/design/form/SButton.vue";
-import { db } from "@/firebase";
+import { db, firestore } from "@/firebase";
 import { router } from "@/router";
 
 const supplement = ref(0);
@@ -76,6 +82,7 @@ const isAdherent = ref(false);
 const selectPack = ref({ pack: "MERRY", value: "130" });
 const numberOfMonths = ref(0);
 const numberOfSessions = ref(0);
+const numberOfPeopleCoached = ref({ value: 2 });
 const totalAmountForGym = ref(0);
 const totalAmountForCoach = ref(0);
 const totalAmount = ref(0);
@@ -90,6 +97,13 @@ const items = [
     { pack: "NAKAMA", value: 130 },
     { pack: "SUNNY" }
 ];
+
+const numberOfPeople = [
+    { value: 2 },
+    { value: 3 },
+    { value: 4 }
+];
+
 const formulasMerry = [
     { numberOfSessions: 1, pack: "1 Coaching", sessionValue: 90, totalValue: 90 },
     { numberOfSessions: 5, pack: "5 Coachings", sessionValue: 85, totalValue: 425 },
@@ -125,10 +139,10 @@ async function savePack() {
             if (isStudent.value) {
                 cost -= 5;
             }
-            totalAmount.value = cost * numberOfSessions.value;
-            totalAmountForCoach.value = (22.5 + Number(supplement.value)) * numberOfSessions.value;
-            totalAmountForGym.value = totalAmount.value - totalAmountForCoach.value;
-            packName.value = `NAKAMA : ${ numberOfSessions.value } séance(s)`;
+            totalAmount.value = cost * numberOfSessions.value * numberOfPeopleCoached.value.value;
+            totalAmountForCoach.value = totalAmount.value / 2;
+            totalAmountForGym.value = totalAmount.value / 2;
+            packName.value = `NAKAMA : ${ numberOfSessions.value } séance(s) / ${ numberOfPeopleCoached.value.value } personnes`;
             break;
         case "SUNNY":
             cost = Number(selectFormula.value.sessionValue);
@@ -145,17 +159,23 @@ async function savePack() {
             break;
         }
 
-        console.log(totalAmount.value);
-        console.log(totalAmountForGym.value);
-        console.log(totalAmountForCoach.value);
-        console.log(packName.value);
+        const sessionsMonthsLeft = numberOfMonths.value ? numberOfMonths.value : numberOfSessions.value;
 
-        await addDoc(collection(doc(db.users, coachId), "customers", customerId, "packs"), {
-            "packName": packName,
-            "totalAmount": totalAmount,
-            "totalAmountForCoach": totalAmountForCoach,
-            "totalAmountForGym": totalAmountForGym
-        });
+
+        const data = {
+            "coachId": coachId,
+            "customerId": customerId,
+            "packName": packName.value,
+            "sessionsMonthsLeft": Number(sessionsMonthsLeft),
+            "totalAmount": totalAmount.value,
+            "totalAmountForCoach": totalAmountForCoach.value,
+            "totalAmountForCoachPaid": 0,
+            "totalAmountForGym": totalAmountForGym.value,
+            "totalAmountForGymPaid": 0,
+            "totalAmountPaid": 0
+        };
+
+        await addDoc(collection(firestore, "packs"), data);
 
         await router.go(-1);
     }

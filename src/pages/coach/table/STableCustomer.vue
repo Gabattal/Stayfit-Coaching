@@ -1,28 +1,28 @@
 <template>
     <div class="table-coach">
         <div
-            v-for="item in customers"
-            :key="item.id"
+            v-for="customer in customers"
+            :key="customer.id"
             class="card"
         >
             <div
                 class="name"
-                @click="goToCustomerView(item.id ,(item.last_name+' '+item.first_name))"
+                @click="goToCustomerView(customer.id ,(customer.last_name+' '+customer.first_name))"
             >
-                {{ item.last_name }} {{ item.first_name }}
+                {{ customer.last_name }} {{ customer.first_name }}
             </div>
             <div class="info">
                 <a
                     class="mail"
-                    :href="`mailto:${item.mail}`"
+                    :href="`mailto:${customer.mail}`"
                 >
-                    {{ item.mail }}
+                    {{ customer.mail }}
                 </a>
                 <a
                     class="phone"
-                    :href="`tel:${item.phone}`"
+                    :href="`tel:${customer.phone}`"
                 >
-                    {{ displayPhone(item.phone) }}
+                    {{ displayPhone(customer.phone) }}
                 </a>
             </div>
         </div>
@@ -38,16 +38,17 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { query, getDocs, collection } from "firebase/firestore";
-import { onMounted, ref } from "vue";
+import { query, getDocs, where } from "firebase/firestore";
+import { computed, onMounted, ref } from "vue";
 import { displayPhone } from "@/lib/user";
-import { firestore, TCustomerCollection } from "@/firebase";
+import { TCustomerCollection, db } from "@/firebase";
 import { router } from "@/router";
+
 const urlParams = new URLSearchParams(window.location.search);
 const coachId = urlParams.get("coachId")?.toString();
 const coachName = urlParams.get("coachName")?.toString();
 
-type Customer = TCustomerCollection & {id: string}
+type Customer = TCustomerCollection & {id: string};
 const customers = ref<Customer[]>([]);
 
 async function goToCustomerView(id: string, name: string) {
@@ -56,7 +57,7 @@ async function goToCustomerView(id: string, name: string) {
 
 const getCustomers = async () => {
     if (coachId){
-        const q = query(collection(firestore, "users", coachId, "customers"));
+        const q = query(db.customers,where("coachId", "==", coachId));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             customers.value.push({
@@ -99,6 +100,13 @@ onMounted(async () => {
             color : var(--color-content-softer);
             display: flex;
             justify-content: space-between;
+        }
+
+        .precisions{
+            color : var(--color-content-softer);
+            display: flex;
+            flex-direction: column;
+            //justify-content: space-between;
         }
     }
 }

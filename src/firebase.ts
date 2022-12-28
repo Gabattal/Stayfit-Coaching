@@ -31,20 +31,32 @@ export type TUserCollection = {
 };
 
 export type TCustomerCollection = {
+    diseasePrecision: string;
+    diseases: [];
     first_name: string;
     last_name: string;
     mail: string;
+    objectivePrecision: string;
+    objectives: [];
     phone: string;
 }
 
 export type TPackCollection = {
+    coachId: string;
+    customerId: string;
     packName: string;
+    sessionsMonthsLeft: number;
     totalAmount: number;
     totalAmountForCoach: number;
+    totalAmountForCoachPaid: number;
     totalAmountForGym: number;
+    totalAmountForGymPaid: number;
+    totalAmountPaid: number;
 }
 
 export const db = {
+    customers: dataPoint<TCustomerCollection>("customers"),
+    packs: dataPoint<TPackCollection>("packs"),
     users: dataPoint<TUserCollection>("users")
 };
 

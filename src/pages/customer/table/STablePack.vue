@@ -4,22 +4,28 @@
             v-for="item in packs"
             :key="item.id"
             class="card"
+            @click="goToPackView(item.id ,item.packName)"
         >
             <div
                 class="name"
-                @click="goToCoachView(item.id ,(item.last_name+' '+item.first_name))"
             >
                 {{ item.packName }}
             </div>
             <div class="info">
                 <div>
-                    Montant restant coach: {{ item.totalAmountForCoach }}€
+                    Montant restant total: {{ item.totalAmount-item.totalAmountPaid }}€
                 </div>
                 <div>
-                    Montant restant salle : {{ item.totalAmountForGym }}€
+                    Montant restant coach: {{ item.totalAmountForCoach-item.totalAmountForCoachPaid }}€
                 </div>
                 <div>
-                    Versé : 0€
+                    Montant restant salle : {{ item.totalAmountForGym -item.totalAmountForGymPaid }}€
+                </div>
+                <div>
+                    Total versé par le client : {{ item.totalAmountPaid }}€
+                </div>
+                <div>
+                    Séances ou mois restants: {{ item.sessionsMonthsLeft }}
                 </div>
             </div>
         </div>
@@ -34,25 +40,26 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { query, where, getDocs, collection, doc } from "firebase/firestore";
+import { query, where, getDocs } from "firebase/firestore";
 import { onMounted, ref } from "vue";
-import { db, firestore, TPackCollection, TUserCollection } from "@/firebase";
+import { db, TPackCollection } from "@/firebase";
 import { router } from "@/router";
-import { displayPhone } from "@/lib/user";
+
 const urlParams = new URLSearchParams(window.location.search);
 const customerId = urlParams.get("customerId")?.toString();
+const customerName = urlParams.get("customerName")?.toString();
 const coachId = urlParams.get("coachId")?.toString();
-type Pack = TPackCollection& {id: string}
+type Pack = TPackCollection & { id: string }
 
 const packs = ref<Pack[]>([]);
 
-async function goToCoachView(id: string, name: string) {
-    await router.push({ path: "/coach", query: { coachId: id, coachName: name } });
+async function goToPackView(id: string, name: string) {
+    await router.push({ path: "/pack", query: { customerId, customerName, "packId": id, "packName": name } });
 }
 
 
-const getCoaches = async () => {
-    const q = query(collection(firestore, "users", coachId, "customers",customerId,"packs"));
+const getPacks = async () => {
+    const q = query(db.packs, where("coachId", "==", coachId), where("customerId", "==", customerId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         packs.value.push({
@@ -61,12 +68,13 @@ const getCoaches = async () => {
         });
     });
 
-    packs.value.sort((packA, packB) => packA.packName.localeCompare(packB.packName));
+    packs.value.sort((packA, packB) => {
+        return packB.sessionsMonthsLeft - packA.sessionsMonthsLeft;
+    });
 };
 
 onMounted(async () => {
-    await getCoaches();
-    console.log(packs.value);
+    await getPacks();
 });
 </script>
 
@@ -84,16 +92,16 @@ onMounted(async () => {
         display: flex;
         flex-direction: column;
         gap: var(--length-gap-xs);
+        cursor: pointer;
 
 
-        .name{
+        .name {
             font-weight: bold;
             font-size: 1.25rem;
-            cursor: pointer;
         }
 
         .info {
-            color : var(--color-content-softer);
+            color: var(--color-content-softer);
             display: flex;
             flex-direction: column;
         }
