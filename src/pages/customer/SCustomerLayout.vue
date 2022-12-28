@@ -1,5 +1,35 @@
-<template />
-
+<template>
+    <SBasicLayout>
+        <div class="title">
+            {{ customerName }}
+            <div>
+                Liste des packs
+            </div>
+        </div>
+        <div class="layout">
+            <div class="content">
+                <STablePack />
+            </div>
+        </div>
+        <template #footer>
+            <div class="footer">
+                <SButton
+                    class="button"
+                    primary
+                    @click="addPack"
+                >
+                    Ajouter
+                </SButton>
+                <SBackButton
+                    class="back-button"
+                    primary
+                >
+                    Retour
+                </SBackButton>
+            </div>
+        </template>
+    </SBasicLayout>
+</template>
 <script lang="ts">
 export default {
     name: "SCustomerLayout"
@@ -8,8 +38,36 @@ export default {
 
 <script setup lang="ts">
 
+import SBasicLayout from "@/design/SBasicLayout.vue";
+import SBackButton from "@/design/back-button/SBackButton.vue";
+import SButton from "@/design/form/SButton.vue";
+import { router } from "@/router";
+import STablePack from "@/pages/customer/table/STablePack.vue";
+const urlParams = new URLSearchParams(window.location.search);
+const customerId = urlParams.get("customerId");
+const customerName = urlParams.get("customerName");
+const coachId = urlParams.get("coachId");
+const coachName = urlParams.get("coachName");
+
+async function addPack(){
+    await router.push({ path: "/add-pack", query: { coachId, coachName, customerId, customerName } });
+}
 </script>
 
 <style scoped lang="scss">
+.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: var(--length-margin-xs);
+    font-weight: bold;
+}
+
+.footer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 
 </style>

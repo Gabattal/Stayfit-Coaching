@@ -7,7 +7,7 @@
         >
             <div
                 class="name"
-                @click="goToCoachView(item.id ,(item.last_name+' '+item.first_name))"
+                @click="goToCustomerView(item.id ,(item.last_name+' '+item.first_name))"
             >
                 {{ item.last_name }} {{ item.first_name }}
             </div>
@@ -22,7 +22,7 @@
                     class="phone"
                     :href="`tel:${item.phone}`"
                 >
-                    {{ item.phone }}
+                    {{ displayPhone(item.phone) }}
                 </a>
             </div>
         </div>
@@ -40,27 +40,27 @@ export default {
 <script setup lang="ts">
 import { query, getDocs, collection } from "firebase/firestore";
 import { onMounted, ref } from "vue";
-import { firestore } from "@/firebase";
+import { displayPhone } from "@/lib/user";
+import { firestore, TCustomerCollection } from "@/firebase";
 import { router } from "@/router";
 const urlParams = new URLSearchParams(window.location.search);
 const coachId = urlParams.get("coachId")?.toString();
+const coachName = urlParams.get("coachName")?.toString();
 
-type Customer = {
-    id: string; first_name: string; last_name: string; mail: string; phone: string;
-}
+type Customer = TCustomerCollection & {id: string}
 const customers = ref<Customer[]>([]);
 
 async function goToCustomerView(id: string, name: string) {
-    await router.push({ path: "/customer", query: { customerId: id, customerName: name } });
+    await router.push({ path: "/customer", query: { coachId, coachName, customerId: id, customerName: name } });
 }
 
-const getcustomers = async () => {
+const getCustomers = async () => {
     if (coachId){
         const q = query(collection(firestore, "users", coachId, "customers"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             customers.value.push({
-                ...doc.data(),
+                ...doc.data() as TCustomerCollection,
                 id: doc.id
             });
         });
@@ -70,8 +70,7 @@ const getcustomers = async () => {
 };
 
 onMounted(async () => {
-    await getcustomers();
-    console.log(customers.value);
+    await getCustomers();
 });
 
 </script>

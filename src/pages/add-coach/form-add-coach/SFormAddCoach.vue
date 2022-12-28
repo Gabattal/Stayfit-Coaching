@@ -69,8 +69,6 @@ async function saveCoach(){
     };
     await setDoc(doc(firestore,"users", localId), data);
     await router.push("/admin");
-
-    console.log(response.user.uid);
 }
 
 </script>

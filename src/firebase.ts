@@ -22,13 +22,27 @@ const dataPoint = <T>(collectionPath: string) => collection(firestore, collectio
 
 
 export type TUserCollection = {
-    customers?: CollectionReference<TUserCollection>;
+    customers?: CollectionReference<TCustomerCollection>;
     first_name: string;
     isAdmin?: boolean;
     last_name: string;
     mail: string;
     phone: string;
 };
+
+export type TCustomerCollection = {
+    first_name: string;
+    last_name: string;
+    mail: string;
+    phone: string;
+}
+
+export type TPackCollection = {
+    packName: string;
+    totalAmount: number;
+    totalAmountForCoach: number;
+    totalAmountForGym: number;
+}
 
 export const db = {
     users: dataPoint<TUserCollection>("users")

@@ -5,6 +5,8 @@ import SAdminLayout from "@/pages/admin/SAdminLayout.vue";
 import SaddCustomer from "@/pages/add-customer/SaddCustomer.vue";
 import SAddCoach from "@/pages/add-coach/SAddCoach.vue";
 import SCoachLayout from "@/pages/coach/SCoachLayout.vue";
+import SCustomerLayout from "@/pages/customer/SCustomerLayout.vue";
+import SAddPack from "@/pages/add-pack/SAddPack.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -13,7 +15,9 @@ export const router = createRouter({
         { component: SHomeLayout, path: "/home" },
         { component: SAdminLayout, path: "/admin" },
         { component: SCoachLayout, path: "/coach" },
+        { component: SCustomerLayout, path: "/customer" },
         { component: SaddCustomer, path: "/add-customer" },
-        { component: SAddCoach, path: "/add-coach" }
+        { component: SAddCoach, path: "/add-coach" },
+        { component: SAddPack, path: "/add-pack" }
     ]
 });
