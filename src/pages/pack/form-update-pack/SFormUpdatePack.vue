@@ -16,30 +16,32 @@
             label="Séance(s) effectuée(s) depuis la dernière fois"
             type="number"
         />
-        <div class="info">
-            Total versé : {{ packData?.totalAmountPaid }} / {{ packData?.totalAmount }}€
+        <div v-if="isAdmin">
+            <div class="info">
+                Total versé : {{ packData?.totalAmountPaid }} / {{ packData?.totalAmount }}€
+            </div>
+            <v-text-field
+                v-model.number="total"
+                label="Dernier versement du client"
+                type="number"
+            />
+            <div class="info">
+                Total versé au coach : {{ packData?.totalAmountForCoachPaid }} / {{ packData?.totalAmountForCoach }}€
+            </div>
+            <v-text-field
+                v-model.number="totalCoach"
+                label="Dernier versement au coach"
+                type="number"
+            />
+            <div class="info">
+                Total versé à la salle : {{ packData?.totalAmountForGymPaid }} / {{ packData?.totalAmountForGym }}€
+            </div>
+            <v-text-field
+                v-model.number="totalGym"
+                label="Dernier versement à la salle"
+                type="number"
+            />
         </div>
-        <v-text-field
-            v-model.number="total"
-            label="Dernier versement du client"
-            type="number"
-        />
-        <div class="info">
-            Total versé au coach : {{ packData?.totalAmountForCoachPaid }} / {{ packData?.totalAmountForCoach }}€
-        </div>
-        <v-text-field
-            v-model.number="totalCoach"
-            label="Dernier versement au coach"
-            type="number"
-        />
-        <div class="info">
-            Total versé à la salle : {{ packData?.totalAmountForGymPaid }} / {{ packData?.totalAmountForGym }}€
-        </div>
-        <v-text-field
-            v-model.number="totalGym"
-            label="Dernier versement à la salle"
-            type="number"
-        />
         <SButton
             big
             primary
@@ -62,6 +64,7 @@ import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
 import { db, TPackCollection } from "@/firebase";
 import SButton from "@/design/form/SButton.vue";
 import { router } from "@/router";
+import { useUserStore } from "@/stores/user";
 
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -70,7 +73,8 @@ const sessions = ref(0);
 const total = ref(0);
 const totalCoach = ref(0);
 const totalGym = ref(0);
-const customerId = urlParams.get("customerId")?.toString();
+const userStore = useUserStore();
+const isAdmin = userStore.isAdmin;
 const packId = urlParams.get("packId")?.toString();
 const snackbarState = ref(false);
 

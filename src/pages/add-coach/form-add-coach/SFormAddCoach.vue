@@ -68,7 +68,7 @@ async function saveCoach(){
         "phone": phone.value
     };
     await setDoc(doc(firestore,"users", localId), data);
-    await router.push("/admin");
+    await router.go(-1);
 }
 
 </script>

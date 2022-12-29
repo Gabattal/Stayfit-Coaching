@@ -10,14 +10,17 @@ export const useUserStore = defineStore("user", () => {
     const user = ref<User>();
     const auth = useFirebaseAuth();
     const isAdmin = ref(false);
+    const userName = ref("");
 
     auth?.onAuthStateChanged(async (fireUser) => {
         user.value = fireUser ?? undefined;
         if (user.value) {
             isAdmin.value = await getUserAdmin(user.value?.uid);
+            userName.value = await getUserName(user.value?.uid);
         }
         await updateLocation();
     });
+
 
     async function updateLocation() {
         const path = router.currentRoute.value.path;
@@ -42,8 +45,14 @@ export const useUserStore = defineStore("user", () => {
         return !!userDoc.data()?.isAdmin;
     }
 
+    async function getUserName(userId: string) {
+        const userDoc = await getDoc(doc(db.users, userId));
+        return `${ userDoc.data()?.last_name } ${ userDoc.data()?.first_name }`;
+    }
+
     return {
         isAdmin,
-        user
+        user,
+        userName
     };
 });
