@@ -12,20 +12,35 @@
                 {{ item.packName }}
             </div>
             <div class="info">
-                <div>
-                    Montant restant total: {{ item.totalAmount-item.totalAmountPaid }}€
+                <div class="line">
+                    Montant restant total:
+                    <div class="data">
+                        {{ item.totalAmount-item.totalAmountPaid }}€
+                    </div>
                 </div>
-                <div>
-                    Montant restant coach: {{ item.totalAmountForCoach-item.totalAmountForCoachPaid }}€
+                <div class="line">
+                    Montant restant coach:
+                    <div class="data">
+                        {{ item.totalAmountForCoach-item.totalAmountForCoachPaid }}€
+                    </div>
                 </div>
-                <div>
-                    Montant restant salle : {{ item.totalAmountForGym -item.totalAmountForGymPaid }}€
+                <div class="line">
+                    Montant restant salle :
+                    <div class="data">
+                        {{ item.totalAmountForGym -item.totalAmountForGymPaid }}€
+                    </div>
                 </div>
-                <div>
-                    Total versé par le client : {{ item.totalAmountPaid }}€
+                <div class="line">
+                    Total versé par le client :
+                    <div class="data">
+                        {{ item.totalAmountPaid }}€
+                    </div>
                 </div>
-                <div>
-                    Séances ou mois restants: {{ item.sessionsMonthsLeft }}
+                <div class="line">
+                    Séances ou mois restants:
+                    <div class="data">
+                        {{ item.sessionsMonthsLeft }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,9 +116,17 @@ onMounted(async () => {
         }
 
         .info {
-            color: var(--color-content-softer);
             display: flex;
             flex-direction: column;
+        }
+
+        .line{
+            display: flex;
+        }
+
+        .data {
+            margin: 0 var(--length-padding-xs);
+            color: var(--color-content-softer);
         }
     }
 }

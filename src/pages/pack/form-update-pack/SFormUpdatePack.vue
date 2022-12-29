@@ -9,7 +9,10 @@
     </v-snackbar>
     <div class="form">
         <div class="info">
-            Séances ou mois restants : {{ packData?.sessionsMonthsLeft }}
+            Séances ou mois restants :
+            <div class="data">
+                {{ packData?.sessionsMonthsLeft }}
+            </div>
         </div>
         <v-text-field
             v-model.number="sessions"
@@ -18,7 +21,10 @@
         />
         <div v-if="isAdmin">
             <div class="info">
-                Total versé : {{ packData?.totalAmountPaid }} / {{ packData?.totalAmount }}€
+                Total versé :
+                <div class="data">
+                    {{ packData?.totalAmountPaid }} / {{ packData?.totalAmount }}€
+                </div>
             </div>
             <v-text-field
                 v-model.number="total"
@@ -26,7 +32,10 @@
                 type="number"
             />
             <div class="info">
-                Total versé au coach : {{ packData?.totalAmountForCoachPaid }} / {{ packData?.totalAmountForCoach }}€
+                Total versé au coach :
+                <div class="data">
+                    {{ packData?.totalAmountForCoachPaid }} / {{ packData?.totalAmountForCoach }}€
+                </div>
             </div>
             <v-text-field
                 v-model.number="totalCoach"
@@ -34,7 +43,10 @@
                 type="number"
             />
             <div class="info">
-                Total versé à la salle : {{ packData?.totalAmountForGymPaid }} / {{ packData?.totalAmountForGym }}€
+                Total versé à la salle :
+                <div class="data">
+                    {{ packData?.totalAmountForGymPaid }} / {{ packData?.totalAmountForGym }}€
+                </div>
             </div>
             <v-text-field
                 v-model.number="totalGym"
@@ -124,6 +136,12 @@ onMounted(async () => {
     justify-content: center;
     .info{
         margin: var(--length-margin-xs);
+        display: flex;
     }
+    .data {
+        margin: 0 var(--length-padding-xs);
+        color: var(--color-content-softer);
+    }
+
 }
 </style>
