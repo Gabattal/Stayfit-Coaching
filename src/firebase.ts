@@ -31,6 +31,7 @@ export type TUserCollection = {
 };
 
 export type TCustomerCollection = {
+    availabilities: [];
     diseasePrecision: string;
     diseases: [];
     first_name: string;

@@ -5,11 +5,18 @@
             :key="customer.id"
             class="card"
         >
-            <div
-                class="name"
-                @click="goToCustomerView(customer.id ,(customer.last_name+' '+customer.first_name))"
-            >
-                {{ customer.last_name }} {{ customer.first_name }}
+            <div class="info">
+                <div
+                    class="name"
+                    @click="goToCustomerView(customer.id ,(customer.last_name+' '+customer.first_name))"
+                >
+                    {{ customer.last_name }} {{ customer.first_name }}
+                </div>
+
+                <v-icon
+                    icon="mdi-account-circle"
+                    @click="goToCustomerProfile(customer.id,(customer.last_name+' '+customer.first_name))"
+                />
             </div>
             <div class="info">
                 <a
@@ -39,7 +46,7 @@ export default {
 
 <script setup lang="ts">
 import { query, getDocs, where } from "firebase/firestore";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { displayPhone } from "@/lib/user";
 import { TCustomerCollection, db } from "@/firebase";
 import { router } from "@/router";
@@ -55,6 +62,10 @@ async function goToCustomerView(id: string, name: string) {
     await router.push({ path: "/customer", query: { coachId, coachName, customerId: id, customerName: name } });
 }
 
+async function goToCustomerProfile(id: string, name: string) {
+    await router.push({ path: "/customer-profile", query: { customerId: id, customerName: name } });
+}
+
 const getCustomers = async () => {
     if (coachId){
         const q = query(db.customers,where("coachId", "==", coachId));
@@ -66,7 +77,6 @@ const getCustomers = async () => {
             });
         });
     }
-
     customers.value.sort((customerA, customerB) => customerA.last_name.localeCompare(customerB.last_name));
 };
 
@@ -97,7 +107,6 @@ onMounted(async () => {
         }
 
         .info {
-            color : var(--color-content-softer);
             display: flex;
             justify-content: space-between;
         }

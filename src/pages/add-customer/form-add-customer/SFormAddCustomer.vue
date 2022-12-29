@@ -53,6 +53,14 @@
             type="text"
         />
 
+        <v-select
+            v-model="avalablitiesRef"
+            chips
+            :items="availabilities"
+            label="Disponibilités"
+            multiple
+        />
+
         <SButton
             big
             primary
@@ -83,6 +91,7 @@ const phone = ref("");
 const mail = ref("");
 const diseasesRef = ref([]);
 const objectivesRef = ref([]);
+const avalablitiesRef = ref([]);
 const diseasePrecision = ref("");
 const objectivePrecision = ref("");
 const urlParams = new URLSearchParams(window.location.search);
@@ -97,8 +106,6 @@ const objectivesValues = [
     "Autres / Préciser"
 ];
 
-
-
 const diseasesValues = [
     "Aucun",
     "Genoux" ,
@@ -108,9 +115,20 @@ const diseasesValues = [
     "Autres / Préciser"
 ];
 
+const availabilities = [
+    "Lundi matin", "Lundi midi" , "Lundi soir" ,
+    "Mardi matin", "Mardi midi" , "Mardi soir" ,
+    "Mercredi matin", "Mercredi midi" , "Mercredi soir" ,
+    "Jeudi matin", "Jeudi midi" , "Jeudi soir" ,
+    "Vendredi matin", "Vendredi midi" , "Vendredi soir" ,
+    "Samedi matin", "Samedi midi" , "Samedi soir" ,
+    "Dimanche matin", "Dimanche midi" , "Dimanche soir"
+];
+
 async function saveCustomer() {
     if (coachId) {
         const data = {
+            "availabilities": avalablitiesRef.value,
             "coachId": coachId,
             "diseasePrecision": diseasePrecision.value,
             "diseases": diseasesRef.value,

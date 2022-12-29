@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@histoire/plugin-vue': ^0.12.4
   '@mdi/font': ^7.1.96
+  '@mdi/js': ^7.1.96
   '@typescript-eslint/eslint-plugin': ^5.47.1
   '@typescript-eslint/parser': ^5.47.1
   '@vitejs/plugin-vue': ^4.0.0
@@ -28,6 +29,7 @@ specifiers:
   vuetify: ^3.0.6
 
 dependencies:
+  '@mdi/js': 7.1.96
   firebase: 9.15.0
   material-design-icons-iconfont: 6.7.0
   pinia: 2.0.28_prq2uz4lho2pwp6irk4cfkrxwu
@@ -949,6 +951,10 @@ packages:
   /@mdi/font/7.1.96:
     resolution: {integrity: sha512-Imag6npmfkBDi2Ze2jiZVAPTDIKLxhz2Sx82xJ2zctyAU5LYJejLI5ChnDwiD9bMkQfVuzEsI98Q8toHyC+HCg==}
     dev: true
+
+  /@mdi/js/7.1.96:
+    resolution: {integrity: sha512-wlrJs6Ryhaa5CqhK3FjTfMRnb/s7HeLkKMFqwQySkK86cdN1TGdzpSM3O4tsmzCA1dYBeTbXvOwSE/Y42cUrvA==}
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
