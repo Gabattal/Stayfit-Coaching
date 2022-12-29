@@ -11,13 +11,6 @@
         </div>
         <template #footer>
             <div class="footer">
-                <SButton
-                    class="button"
-                    primary
-                    @click="addPack"
-                >
-                    Ajouter
-                </SButton>
                 <SBackButton
                     class="back-button"
                     primary
@@ -69,6 +62,6 @@ const packName = urlParams.get("packName");
 .footer {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 </style>
