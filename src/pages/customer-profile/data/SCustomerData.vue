@@ -98,7 +98,6 @@ const getCustomerData = async () => {
 
 onMounted(async () => {
     await getCustomerData();
-    console.log(customerData.value);
 });
 
 </script>

@@ -108,7 +108,6 @@ async function updatePack(){
 
 onMounted(async () => {
     await getPack();
-    console.log(packData.value);
 });
 </script>
 

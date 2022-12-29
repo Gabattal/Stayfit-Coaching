@@ -14,7 +14,8 @@
                 </div>
 
                 <v-icon
-                    icon="mdi-account-circle"
+                    icon="mdi-information-outline"
+                    size="large"
                     @click="goToCustomerProfile(customer.id,(customer.last_name+' '+customer.first_name))"
                 />
             </div>

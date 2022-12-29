@@ -1,25 +1,20 @@
 <template>
     <SBasicLayout>
         <div class="title">
-            Liste des coachs
+            Informations de {{ coachName }}
         </div>
         <div class="layout">
-            <STableCoach />
+            <SCoachingProfileData />
         </div>
         <template #footer>
             <div class="footer">
                 <SButton
                     class="button"
                     primary
-                    @click="addCoach"
+                    @click="router.go(-1)"
                 >
-                    Ajouter
+                    Retour
                 </SButton>
-                <v-icon
-                    icon="mdi-information-outline"
-                    size="x-large"
-                    @click="goToAdminProfile()"
-                />
             </div>
         </template>
     </SBasicLayout>
@@ -27,23 +22,18 @@
 
 <script lang="ts">
 export default {
-    name: "SAdminLayout"
+    name: "SCoachProfileLayout"
 };
 </script>
 
 <script setup lang="ts">
-import STableCoach from "@/pages/admin/table/STableCoach.vue";
-import { router } from "@/router";
 import SButton from "@/design/form/SButton.vue";
 import SBasicLayout from "@/design/SBasicLayout.vue";
+import { router } from "@/router";
+import SCoachingProfileData from "@/pages/coach-profile/data/SCoachingProfileData.vue";
+const urlParams = new URLSearchParams(window.location.search);
+const coachName = urlParams.get("coachName");
 
-async function addCoach() {
-    await router.push("/add-coach");
-}
-
-async function goToAdminProfile(){
-    await router.push("/admin-profile");
-}
 </script>
 
 <style scoped lang="scss">
@@ -58,7 +48,6 @@ async function goToAdminProfile(){
 .footer{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
-
 </style>

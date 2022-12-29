@@ -9,6 +9,8 @@ import SCustomerLayout from "@/pages/customer/SCustomerLayout.vue";
 import SAddPack from "@/pages/add-pack/SAddPack.vue";
 import SPackLayout from "@/pages/pack/SPackLayout.vue";
 import SCustomerProfile from "@/pages/customer-profile/SCustomerProfile.vue";
+import SCoachProfileLayout from "@/pages/coach-profile/SCoachProfileLayout.vue";
+import SAdminProfileLayout from "@/pages/admin-profile/SAdminProfileLayout.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -16,7 +18,9 @@ export const router = createRouter({
         { component: SConnectionLayout, path: "/" },
         { component: SHomeLayout, path: "/home" },
         { component: SAdminLayout, path: "/admin" },
+        { component: SAdminProfileLayout, path: "/admin-profile" },
         { component: SCoachLayout, path: "/coach" },
+        { component: SCoachProfileLayout, path: "/coach-profile" },
         { component: SCustomerLayout, path: "/customer" },
         { component: SCustomerProfile, path: "/customer-profile" },
         { component: SPackLayout, path: "/pack" },

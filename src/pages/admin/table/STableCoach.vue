@@ -5,11 +5,18 @@
             :key="item.id"
             class="card"
         >
-            <div
-                class="name"
-                @click="goToCoachView(item.id ,(item.last_name+' '+item.first_name))"
-            >
-                {{ item.last_name }} {{ item.first_name }}
+            <div class="info">
+                <div
+                    class="name"
+                    @click="goToCoachView(item.id ,(item.last_name+' '+item.first_name))"
+                >
+                    {{ item.last_name }} {{ item.first_name }}
+                </div>
+                <v-icon
+                    icon="mdi-information-outline"
+                    size="large"
+                    @click="goToCoachProfile(item.id ,(item.last_name+' '+item.first_name))"
+                />
             </div>
             <div class="info">
                 <a
@@ -50,6 +57,10 @@ const coaches = ref<Coach[]>([]);
 
 async function goToCoachView(id: string, name: string) {
     await router.push({ path: "/coach", query: { coachId: id, coachName: name } });
+}
+
+async function goToCoachProfile(id: string, name: string){
+    await router.push({ path: "/coach-profile", query: { coachId: id, coachName: name } });
 }
 
 const getCoaches = async () => {
@@ -93,7 +104,6 @@ onMounted(async () => {
         }
 
         .info {
-            color : var(--color-content-softer);
             display: flex;
             justify-content: space-between;
         }
