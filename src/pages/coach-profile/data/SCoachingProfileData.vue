@@ -51,7 +51,7 @@
     </div>
     <div class="info">
         <div class="line">
-            Total à reverser salle:
+            Total restant à reverser salle:
             <div
                 class="data"
             >
