@@ -42,4 +42,10 @@ const customerName = urlParams.get("customerName")?.toString();
     margin: var(--length-margin-xs);
     font-weight: bold;
 }
+
+.footer{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
 </style>

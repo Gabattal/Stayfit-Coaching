@@ -14,11 +14,14 @@
                 {{ packData?.sessionsMonthsLeft }}
             </div>
         </div>
-        <v-text-field
-            v-model.number="sessions"
-            label="Séance(s) effectuée(s) depuis la dernière fois"
-            type="number"
-        />
+        <SButton
+            v-if="!isAdmin"
+            big
+            primary
+            @click="deductSession"
+        >
+            Déduire séance
+        </SButton>
         <div v-if="isAdmin">
             <div class="info">
                 Total versé :
@@ -53,14 +56,14 @@
                 label="Dernier versement à la salle"
                 type="number"
             />
+            <SButton
+                big
+                primary
+                @click="updatePack"
+            >
+                Enregistrer
+            </SButton>
         </div>
-        <SButton
-            big
-            primary
-            @click="updatePack"
-        >
-            Enregistrer
-        </SButton>
     </div>
 </template>
 
@@ -120,6 +123,23 @@ async function updatePack(){
             snackbarState.value = true;
         }
     }
+}
+
+async function deductSession(){
+    const packRef = doc(db.packs, packId);
+    try {
+        await updateDoc(packRef, {
+            sessionsMonthsLeft: increment(-1),
+            totalAmountForCoachPaid: increment(totalCoach.value),
+            totalAmountForGymPaid: increment(totalGym.value),
+            totalAmountPaid: increment(total.value)
+        });
+        router.go(-1);
+    }
+    catch (error) {
+        snackbarState.value = true;
+    }
+
 }
 
 onMounted(async () => {

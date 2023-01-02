@@ -25,6 +25,13 @@
         >
             Connexion
         </SButton>
+        <div class="lost-password">
+            <a
+                @click="lostPassword"
+            >
+                Mot de passe oublié
+            </a>
+        </div>
     </div>
 </template>
 
@@ -39,10 +46,15 @@ import { useFirebaseAuth } from "vuefire";
 import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { ref } from "vue";
 import SButton from "@/design/form/SButton.vue";
+import { router } from "@/router";
 
 const mail = ref("");
 const password = ref("");
 const snackbarState = ref(false);
+
+async function lostPassword(){
+    await router.push("/lost-password");
+}
 
 async function connection(){
     const auth = useFirebaseAuth();
@@ -69,5 +81,12 @@ async function connection(){
     max-width: calc(100% - 2 * var(--length-margin-m));
     display: flex;
     flex-direction: column;
+}
+
+.lost-password{
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    margin: var(--length-margin-m) 0;
 }
 </style>

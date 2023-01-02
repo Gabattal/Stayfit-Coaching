@@ -11,6 +11,7 @@ import SPackLayout from "@/pages/pack/SPackLayout.vue";
 import SCustomerProfile from "@/pages/customer-profile/SCustomerProfile.vue";
 import SCoachProfileLayout from "@/pages/coach-profile/SCoachProfileLayout.vue";
 import SAdminProfileLayout from "@/pages/admin-profile/SAdminProfileLayout.vue";
+import SLostPasswordLayout from "@/pages/lost-password/SLostPasswordLayout.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -20,6 +21,7 @@ export const router = createRouter({
         { component: SAdminLayout, path: "/admin" },
         { component: SAdminProfileLayout, path: "/admin-profile" },
         { component: SCoachLayout, path: "/coach" },
+        { component: SLostPasswordLayout, path: "/lost-password" },
         { component: SCoachProfileLayout, path: "/coach-profile" },
         { component: SCustomerLayout, path: "/customer" },
         { component: SCustomerProfile, path: "/customer-profile" },

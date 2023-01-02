@@ -70,6 +70,9 @@ async function addPack(){
     font-weight: bold;
 }
 
+.back-button{
+    display: flex;
+}
 .footer {
     display: flex;
     width: 100%;

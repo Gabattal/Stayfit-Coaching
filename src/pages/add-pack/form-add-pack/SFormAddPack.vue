@@ -167,6 +167,7 @@ async function savePack() {
             "customerId": customerId,
             "packName": packName.value,
             "sessionsMonthsLeft": Number(sessionsMonthsLeft),
+            "sessionsMonthsTotal": Number(sessionsMonthsLeft),
             "totalAmount": totalAmount.value,
             "totalAmountForCoach": totalAmountForCoach.value,
             "totalAmountForCoachPaid": 0,

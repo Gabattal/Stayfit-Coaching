@@ -47,6 +47,7 @@ export type TPackCollection = {
     customerId: string;
     packName: string;
     sessionsMonthsLeft: number;
+    sessionsMonthsTotal: number;
     totalAmount: number;
     totalAmountForCoach: number;
     totalAmountForCoachPaid: number;
