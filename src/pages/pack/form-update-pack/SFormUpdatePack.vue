@@ -100,39 +100,28 @@ const getPack = async () => {
 };
 
 async function updatePack(){
-    if (sessions.value > packData.value?.sessionsMonthsLeft ||
-        (total.value + packData.value?.totalAmountPaid) > packData.value?.totalAmount ||
-        (totalGym.value + packData.value?.totalAmountForGymPaid) > packData.value?.totalAmountForGym ||
-        (totalCoach.value + packData.value?.totalAmountForCoachPaid) > packData?.value?.totalAmountForCoach ||
-        typeof sessions.value === "string" || typeof totalGym.value === "string" || typeof total.value === "string"
-        || typeof totalCoach.value === "string"){
+
+    
+    const packRef = doc(db.packs, packId);
+    try {
+        await updateDoc(packRef, {
+            totalAmountForCoachPaid: totalCoach.value,
+            totalAmountForGymPaid: totalGym.value,
+            totalAmountPaid: total.value
+        });
+        router.go(-1);
+    }
+    catch (error) {
         snackbarState.value = true;
     }
-    else {
-        const packRef = doc(db.packs, packId);
-        try {
-            await updateDoc(packRef, {
-                sessionsMonthsLeft: increment(-sessions.value),
-                totalAmountForCoachPaid: increment(totalCoach.value),
-                totalAmountForGymPaid: increment(totalGym.value),
-                totalAmountPaid: increment(total.value)
-            });
-            router.go(-1);
-        }
-        catch (error) {
-            snackbarState.value = true;
-        }
-    }
+
 }
 
 async function deductSession(){
     const packRef = doc(db.packs, packId);
     try {
         await updateDoc(packRef, {
-            sessionsMonthsLeft: increment(-1),
-            totalAmountForCoachPaid: increment(totalCoach.value),
-            totalAmountForGymPaid: increment(totalGym.value),
-            totalAmountPaid: increment(total.value)
+            sessionsMonthsLeft: increment(-1)
         });
         router.go(-1);
     }
