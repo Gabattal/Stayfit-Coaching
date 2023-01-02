@@ -116,6 +116,7 @@ const formulasMerry = [
 
 async function savePack() {
     if (customerId && coachId) {
+        let sessionsMonthsLeft = 0;
         
         switch (selectPack.value.pack) {
         case "MERRY":
@@ -130,6 +131,7 @@ async function savePack() {
             totalAmountForCoach.value = (80 + Number(supplement.value)) * numberOfMonths.value;
             totalAmountForGym.value = totalAmount.value - totalAmountForCoach.value;
             packName.value = `MERRY : ${ numberOfMonths.value } mois`;
+            sessionsMonthsLeft = numberOfMonths.value;
             break;
         case "NAKAMA":
             cost = 45;
@@ -143,6 +145,7 @@ async function savePack() {
             totalAmountForCoach.value = totalAmount.value / 2;
             totalAmountForGym.value = totalAmount.value / 2;
             packName.value = `NAKAMA : ${ numberOfSessions.value } séance(s) / ${ numberOfPeopleCoached.value.value } personnes`;
+            sessionsMonthsLeft = numberOfSessions.value;
             break;
         case "SUNNY":
             cost = Number(selectFormula.value.sessionValue);
@@ -155,11 +158,10 @@ async function savePack() {
             totalAmount.value = cost * Number(selectFormula.value.numberOfSessions);
             totalAmountForCoach.value = (40 + Number(supplement.value)) * selectFormula.value.numberOfSessions;
             totalAmountForGym.value = totalAmount.value - totalAmountForCoach.value;
-            packName.value = `MERRY : ${ selectFormula.value.pack }`;
+            packName.value = `SUNNY : ${ selectFormula.value.pack }`;
+            sessionsMonthsLeft = selectFormula.value.numberOfSessions;
             break;
         }
-
-        const sessionsMonthsLeft = numberOfMonths.value ? numberOfMonths.value : numberOfSessions.value;
 
 
         const data = {
