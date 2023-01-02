@@ -31,7 +31,7 @@
             </div>
             <v-text-field
                 v-model.number="total"
-                label="Dernier versement du client"
+                label="Total versé"
                 type="number"
             />
             <div class="info">
@@ -42,7 +42,7 @@
             </div>
             <v-text-field
                 v-model.number="totalCoach"
-                label="Dernier versement au coach"
+                label="Total versé au coach"
                 type="number"
             />
             <div class="info">
@@ -53,7 +53,7 @@
             </div>
             <v-text-field
                 v-model.number="totalGym"
-                label="Dernier versement à la salle"
+                label="Total versé à la salle"
                 type="number"
             />
             <SButton
@@ -97,6 +97,9 @@ const getPack = async () => {
     const packRef = doc(db.packs, packId);
     const packSnap = await getDoc(packRef);
     packData.value = packSnap.data();
+    total.value = packData.value?.totalAmountPaid;
+    totalCoach.value = packData.value?.totalAmountForCoachPaid;
+    totalGym.value = packData.value?.totalAmountForGymPaid;
 };
 
 async function updatePack(){
