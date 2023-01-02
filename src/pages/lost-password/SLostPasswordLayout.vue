@@ -7,13 +7,14 @@
     >
         Un email pour réinitialiser ton mot de passe t'a été envoyé. (Check tes spams)
     </v-snackbar>
-    <SButton
-        class="connexion"
-        primary
-        @click="goToLogin"
-    >
-        Réinitialiser mot de passe
-    </SButton>
+    <div class="connexion">
+        <SButton
+            primary
+            @click="router.go(-1)"
+        >
+            Connexion
+        </SButton>
+    </div>
     <div class="home">
         <div class="form">
             <v-text-field
@@ -42,6 +43,7 @@ export default {
 import { ref } from "vue";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import SButton from "@/design/form/SButton.vue";
+import { router } from "@/router";
 const mail = ref("");
 const snackbarState = ref(false);
 
@@ -58,9 +60,16 @@ async function sendEmail(){
             const errorMessage = error.message;
         });
 }
+
 </script>
 
 <style scoped lang="scss">
+.connexion{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--length-margin-xs);
+}
 .home {
     height: 100%;
     display: flex;
