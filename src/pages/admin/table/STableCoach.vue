@@ -103,9 +103,14 @@ onMounted(async () => {
             cursor: pointer;
         }
 
+        .mail{
+        padding-right: var(--length-padding-xs);
+        }
+
         .info {
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
     }
 }

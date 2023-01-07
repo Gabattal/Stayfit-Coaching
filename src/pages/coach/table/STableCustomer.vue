@@ -107,9 +107,14 @@ onMounted(async () => {
             font-size: 1.25rem;
         }
 
+        .mail{
+            padding-right: var(--length-padding-xs);
+        }
+
         .info {
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
 
         .precisions{
