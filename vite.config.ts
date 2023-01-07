@@ -15,9 +15,36 @@ export default defineConfig({
     },
     plugins: [
         vue(),
-        VitePWA({ registerType: "autoUpdate" })
+        VitePWA({
+            devOptions: {
+                enabled: true
+            },
+            injectRegister: "auto",
+            manifest: {
+                name: "Stayfit Coaching",
+                description: "Stayfit Coaching",
+                icons: [
+                    {
+                        sizes: "192x192",
+                        src: "pwa-192x192.png",
+                        type: "image/png"
+                    },
+                    {
+                        sizes: "512x512",
+                        src: "pwa-512x512.png",
+                        type: "image/png"
+                    }
+                ],
+                short_name: "Stayfit",
+                theme_color: "#ffffff"
+            },
+            registerType: "autoUpdate"
+        })
     ],
     resolve: {
         alias
+    },
+    server: {
+        host: "127.0.0.1"
     }
 });
