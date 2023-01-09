@@ -20,7 +20,7 @@
             v-if="selectPack.pack==='MERRY'"
             v-model="numberOfMonths"
             label="Nombre de mois"
-            type="text"
+            type="number"
         />
         <v-select
             v-if="selectPack.pack==='NAKAMA'"
@@ -35,23 +35,37 @@
             v-if="selectPack.pack==='NAKAMA'"
             v-model="numberOfSessions"
             label="Nombre de séances"
-            type="text"
+            type="number"
         />
         <v-text-field
             v-model="supplement"
             label="Supplément pour coach"
-            type="text"
+            type="number"
         />
-        <div class="checkboxes">
-            <v-checkbox
-                v-model="isStudent"
-                label="Étudiant"
-            />
-            <v-checkbox
-                v-model="isAdherent"
-                label="Adhérent"
-            />
-        </div>
+        <v-checkbox
+            v-model="isStudent"
+            label="Étudiant"
+        />
+        <v-checkbox
+            v-model="isAdherent"
+            label="Adhérent"
+        />
+        <v-checkbox
+            v-model="isCustom"
+            label="Personnalisé"
+        />
+        <v-text-field
+            v-if="isCustom"
+            v-model="customCoach"
+            label="Part coach"
+            type="number"
+        />
+        <v-text-field
+            v-if="isCustom"
+            v-model="customGym"
+            label="Part salle"
+            type="number"
+        />
         <SButton
             big
             primary
@@ -72,6 +86,10 @@ export default {
 
 import { ref } from "vue";
 import { addDoc, collection, doc } from "firebase/firestore";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+
+
 import SButton from "@/design/form/SButton.vue";
 import { db, firestore } from "@/firebase";
 import { router } from "@/router";
@@ -79,6 +97,7 @@ import { router } from "@/router";
 const supplement = ref(0);
 const isStudent = ref(false);
 const isAdherent = ref(false);
+const isCustom = ref(false);
 const selectPack = ref({ pack: "MERRY", value: "130" });
 const numberOfMonths = ref(0);
 const numberOfSessions = ref(0);
@@ -86,6 +105,8 @@ const numberOfPeopleCoached = ref({ value: 2 });
 const totalAmountForGym = ref(0);
 const totalAmountForCoach = ref(0);
 const totalAmount = ref(0);
+const customCoach = ref(0);
+const customGym = ref(0);
 const packName = ref("");
 let cost = 0;
 const selectFormula = ref({ numberOfSessions: 1, pack: "1 Coaching", sessionValue: 90, totalValue: 90 });
@@ -117,7 +138,8 @@ const formulasMerry = [
 async function savePack() {
     if (customerId && coachId) {
         let sessionsMonthsLeft = 0;
-        
+
+
         switch (selectPack.value.pack) {
         case "MERRY":
             cost = 130;
@@ -162,11 +184,17 @@ async function savePack() {
             sessionsMonthsLeft = selectFormula.value.numberOfSessions;
             break;
         }
-
+        if (isCustom.value){
+            totalAmountForGym.value = customGym.value;
+            totalAmountForCoach.value = customCoach.value;
+            totalAmount.value = Number(customGym.value) + Number(customCoach.value);
+        }
+        const timestamp = firebase.firestore.Timestamp.fromDate(new Date());
 
         const data = {
             "coachId": coachId,
             "customerId": customerId,
+            "isCreatedAt": timestamp,
             "packName": packName.value,
             "sessionsMonthsLeft": Number(sessionsMonthsLeft),
             "sessionsMonthsTotal": Number(sessionsMonthsLeft),

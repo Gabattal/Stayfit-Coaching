@@ -4,13 +4,24 @@
             v-for="item in packs"
             :key="item.id"
             class="card"
-            @click="goToPackView(item.id ,item.packName)"
         >
             <div
                 class="name"
             >
-                {{ item.packName }}
+                <div @click="goToPackView(item.id ,item.packName)">
+                    {{ item.packName }}
+                </div>
+                <div class="actions">
+                    <v-icon
+                        aria-hidden="false"
+                        size="small"
+                        @click="deletePack(item.id)"
+                    >
+                        mdi-delete
+                    </v-icon>
+                </div>
             </div>
+
             <div class="info">
                 <div class="line">
                     Montant restant total:
@@ -49,13 +60,20 @@
 
 
 <script lang="ts">
+import { mdiDelete } from "@mdi/js";
+
 export default {
-    name: "STablePack"
+    name: "STablePack",
+    data: () => ({
+        icons: {
+            mdiDelete
+        }
+    })
 };
 </script>
 
 <script setup lang="ts">
-import { query, where, getDocs } from "firebase/firestore";
+import { query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { onMounted, ref } from "vue";
 import { db, TPackCollection } from "@/firebase";
 import { router } from "@/router";
@@ -88,6 +106,14 @@ const getPacks = async () => {
     });
 };
 
+async function deletePack(packId: string){
+    const packRef = doc(db.packs, packId);
+    await deleteDoc(doc(db.packs, packId));
+    packs.value = [];
+    await getPacks();
+
+}
+
 onMounted(async () => {
     await getPacks();
 });
@@ -113,6 +139,11 @@ onMounted(async () => {
         .name {
             font-weight: bold;
             font-size: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            .actions{
+                display: flex;
+            }
         }
 
         .info {

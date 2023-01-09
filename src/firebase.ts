@@ -45,6 +45,7 @@ export type TCustomerCollection = {
 export type TPackCollection = {
     coachId: string;
     customerId: string;
+    isCreatedAt: Date;
     packName: string;
     sessionsMonthsLeft: number;
     sessionsMonthsTotal: number;
