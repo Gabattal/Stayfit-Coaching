@@ -1,9 +1,33 @@
 <template>
     <SBasicLayout>
-        <div class="title">
-            {{ customerName }}
-            <div>
-                Liste des packs
+        <div class="head">
+            <div class="hidden">
+                <v-icon
+                    icon="mdi-delete-outline"
+                    size="large"
+                />
+                <v-icon
+                    icon="mdi-account-edit-outline"
+                    size="large"
+                />
+            </div>
+            <div class="title">
+                <div>
+                    {{ customerName }}
+                </div>
+                <div>
+                    Liste des packs
+                </div>
+            </div>
+            <div class="icons">
+                <v-icon
+                    icon="mdi-delete-outline"
+                    size="large"
+                />
+                <v-icon
+                    icon="mdi-account-edit-outline"
+                    size="large"
+                />
             </div>
         </div>
         <div class="layout">
@@ -79,4 +103,20 @@ async function addPack(){
     justify-content: space-between;
 }
 
+.head{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+.icons{
+    display: flex;
+    justify-content: flex-end;
+}
 </style>

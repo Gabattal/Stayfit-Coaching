@@ -12,7 +12,7 @@
                 >
                     {{ customer.last_name }} {{ customer.first_name }}
                 </div>
-
+                
                 <v-icon
                     icon="mdi-information-outline"
                     size="large"
@@ -51,10 +51,13 @@ import { onMounted, ref } from "vue";
 import { displayPhone } from "@/lib/user";
 import { TCustomerCollection, db } from "@/firebase";
 import { router } from "@/router";
+import { useUserStore } from "@/stores/user";
 
 const urlParams = new URLSearchParams(window.location.search);
 const coachId = urlParams.get("coachId")?.toString();
 const coachName = urlParams.get("coachName")?.toString();
+const userStore = useUserStore();
+const isAdmin = userStore.isAdmin;
 
 type Customer = TCustomerCollection & {id: string};
 const customers = ref<Customer[]>([]);

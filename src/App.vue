@@ -9,8 +9,14 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { useUserStore } from "@/stores/user";
 useUserStore();
+const userStore = useUserStore();
+
+onMounted(() => {
+    //console.log(userStore.user);
+});
 </script>
 
 <style lang="scss">

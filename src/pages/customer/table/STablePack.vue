@@ -1,4 +1,32 @@
 <template>
+    <v-dialog
+        v-model="dialog"
+    >
+        <v-card>
+            <v-card-title class="card-title">
+                {{ packNameDelete }}
+            </v-card-title>
+            <v-card-text>
+                Êtes-vous sûr de vouloir supprimer ce pack?
+            </v-card-text>
+            <div class="card-actions">
+                <SButton
+                    big
+                    primary
+                    @click="deletePack"
+                >
+                    Oui
+                </SButton>
+                <SButton
+                    big
+                    error
+                    @click="dialog = false"
+                >
+                    Non
+                </SButton>
+            </div>
+        </v-card>
+    </v-dialog>
     <div class="table-coach">
         <div
             v-for="item in packs"
@@ -11,14 +39,15 @@
                 <div @click="goToPackView(item.id ,item.packName)">
                     {{ item.packName }}
                 </div>
-                <div class="actions">
+                <div
+                    class="actions"
+                >
                     <v-icon
-                        aria-hidden="false"
-                        size="small"
-                        @click="deletePack(item.id)"
-                    >
-                        mdi-delete
-                    </v-icon>
+                        v-if="isAdmin"
+                        icon="mdi-delete-outline"
+                        size="large"
+                        @click="openDialog(item.id, item.packName)"
+                    />
                 </div>
             </div>
 
@@ -63,12 +92,7 @@
 import { mdiDelete } from "@mdi/js";
 
 export default {
-    name: "STablePack",
-    data: () => ({
-        icons: {
-            mdiDelete
-        }
-    })
+    name: "STablePack"
 };
 </script>
 
@@ -77,17 +101,31 @@ import { query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { onMounted, ref } from "vue";
 import { db, TPackCollection } from "@/firebase";
 import { router } from "@/router";
+import SButton from "@/design/form/SButton.vue";
+import { useUserStore } from "@/stores/user";
 
 const urlParams = new URLSearchParams(window.location.search);
 const customerId = urlParams.get("customerId")?.toString();
 const customerName = urlParams.get("customerName")?.toString();
 const coachId = urlParams.get("coachId")?.toString();
 type Pack = TPackCollection & { id: string }
+const userStore = useUserStore();
+const isAdmin = userStore.isAdmin;
 
 const packs = ref<Pack[]>([]);
+const dialog = ref(false);
+const packNameDelete = ref("");
+const packIdDelete = ref("");
 
 async function goToPackView(id: string, name: string) {
     await router.push({ path: "/pack", query: { customerId, customerName, "packId": id, "packName": name } });
+}
+
+function openDialog(id: string, name: string){
+    console.log(id);
+    packNameDelete.value = name;
+    packIdDelete.value = id;
+    dialog.value = true;
 }
 
 
@@ -106,9 +144,10 @@ const getPacks = async () => {
     });
 };
 
-async function deletePack(packId: string){
-    const packRef = doc(db.packs, packId);
-    await deleteDoc(doc(db.packs, packId));
+async function deletePack(){
+    dialog.value = false;
+    const packRef = doc(db.packs, packIdDelete.value);
+    await deleteDoc(doc(db.packs, packIdDelete.value));
     packs.value = [];
     await getPacks();
 
@@ -120,11 +159,17 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
+
+.card-actions{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--length-padding-m);
+}
 .table-coach {
     display: flex;
     flex-direction: column;
     gap: var(--length-gap-m);
-
 
     .card {
         padding: var(--length-padding-m);
