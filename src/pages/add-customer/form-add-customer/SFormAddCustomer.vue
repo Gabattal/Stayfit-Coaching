@@ -79,10 +79,10 @@ export default {
 
 <script setup lang="ts">
 
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { ref } from "vue";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { onMounted, ref } from "vue";
 import SButton from "@/design/form/SButton.vue";
-import { db, firestore } from "@/firebase";
+import { db, firestore, TCustomerCollection } from "@/firebase";
 import { router } from "@/router";
 
 const last_name = ref("");
@@ -96,6 +96,9 @@ const diseasePrecision = ref("");
 const objectivePrecision = ref("");
 const urlParams = new URLSearchParams(window.location.search);
 const coachId = urlParams.get("coachId")?.toString();
+const customerId = urlParams.get("customerId")?.toString();
+type Customer = TCustomerCollection;
+const customerData = ref<Customer>();
 
 
 const objectivesValues = [
@@ -126,24 +129,48 @@ const availabilities = [
 ];
 
 async function saveCustomer() {
-    if (coachId) {
-        const data = {
-            "availabilities": avalablitiesRef.value,
-            "coachId": coachId,
-            "diseasePrecision": diseasePrecision.value,
-            "diseases": diseasesRef.value,
-            "first_name": first_name.value,
-            "last_name": last_name.value,
-            "mail": mail.value,
-            "objectivePrecision": objectivePrecision.value,
-            "objectives": objectivesRef.value,
-            "phone": phone.value
-        };
-
+    const data = {
+        "availabilities": avalablitiesRef.value,
+        "coachId": coachId,
+        "diseasePrecision": diseasePrecision.value,
+        "diseases": diseasesRef.value,
+        "first_name": first_name.value,
+        "last_name": last_name.value,
+        "mail": mail.value,
+        "objectivePrecision": objectivePrecision.value,
+        "objectives": objectivesRef.value,
+        "phone": phone.value
+    };
+    if (coachId && !customerId) {
         await addDoc(collection(firestore, "customers"), data);
         router.go(-1);
     }
+    else if (coachId && customerId){
+        await setDoc(doc(db.customers, customerId), data);
+        router.go(-1);
+    }
 }
+
+const getCustomerData = async () => {
+    const userDoc = await getDoc(doc(db.customers, customerId));
+    customerData.value = userDoc.data();
+    console.log(userDoc.data());
+    last_name.value = userDoc.data()?.last_name || "";
+    first_name.value = userDoc.data()?.first_name || "";
+    phone.value = userDoc.data()?.phone || "";
+    mail.value = userDoc.data()?.mail || "";
+    objectivesRef.value = userDoc.data()?.objectives || [];
+    objectivePrecision.value = userDoc.data()?.objectivePrecision || "";
+    diseasesRef.value = userDoc.data()?.diseases || [];
+    diseasePrecision.value = userDoc.data()?.diseasePrecision || "";
+    avalablitiesRef.value = userDoc.data()?.availabilities || [];
+};
+
+onMounted(() => {
+    if (customerId){
+        getCustomerData();
+    }
+});
 </script>
 
 <style scoped lang="scss">

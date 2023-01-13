@@ -40,10 +40,10 @@
                     {{ item.packName }}
                 </div>
                 <div
+                    v-if="isAdmin"
                     class="actions"
                 >
                     <v-icon
-                        v-if="isAdmin"
                         icon="mdi-delete-outline"
                         size="large"
                         @click="openDialog(item.id, item.packName)"
