@@ -130,7 +130,6 @@ async function modifyCoach(){
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
         margin: var(--length-margin-xs);
         font-weight: bold;
     }
