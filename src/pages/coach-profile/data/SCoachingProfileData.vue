@@ -87,18 +87,18 @@ async function getData(){
     const q = query(db.packs,where("coachId","==", coachId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        if (doc.data().sessionsMonthsLeft > 0){
+        if (Number(doc.data().sessionsMonthsLeft) > 0){
             numberOfCoaching.value++;
         }
-        totalPaid.value += doc.data().totalAmountPaid;
-        totalForCoach.value += doc.data().totalAmountForCoach;
-        totalCoaching.value += doc.data().totalAmount;
-        totalForCoachPaid.value += doc.data().totalAmountForCoachPaid;
-        totalForGym.value += doc.data().totalAmountForGym;
-        totalForGymPaid.value += doc.data().totalAmountForGymPaid;
+        totalPaid.value += Number(doc.data().totalAmountPaid);
+        totalForCoach.value += Number(doc.data().totalAmountForCoach);
+        totalCoaching.value += Number(doc.data().totalAmount);
+        totalForCoachPaid.value += Number(doc.data().totalAmountForCoachPaid);
+        totalForGym.value += Number(doc.data().totalAmountForGym);
+        totalForGymPaid.value += Number(doc.data().totalAmountForGymPaid);
     });
-    totalForGCoachRemaining.value = totalForCoach.value - totalForCoachPaid.value;
-    totalForGymToPay.value = totalForGym.value - totalForGymPaid.value;
+    totalForGCoachRemaining.value = Number(totalForCoach.value - totalForCoachPaid.value);
+    totalForGymToPay.value = Number(totalForGym.value - totalForGymPaid.value);
 }
 
 onMounted(async () => {

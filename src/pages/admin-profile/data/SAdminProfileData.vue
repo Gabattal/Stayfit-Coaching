@@ -71,14 +71,14 @@ async function getData(){
     const q = query(db.packs);
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        if (doc.data().sessionsMonthsLeft > 0){
+        if (Number(doc.data().sessionsMonthsLeft) > 0){
             numberOfCoaching.value++;
         }
-        totalCoaching.value += doc.data().totalAmount;
-        totalForGym.value += doc.data().totalAmountForGym;
-        totalForGymPaid.value += doc.data().totalAmountForGymPaid;
+        totalCoaching.value += Number(doc.data().totalAmount);
+        totalForGym.value += Number(doc.data().totalAmountForGym);
+        totalForGymPaid.value += Number(doc.data().totalAmountForGymPaid);
     });
-    totalForGymRemaining.value = totalForGym.value - totalForGymPaid.value;
+    totalForGymRemaining.value = Number(totalForGym.value - totalForGymPaid.value);
 }
 
 onMounted(async () => {
