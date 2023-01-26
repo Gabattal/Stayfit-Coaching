@@ -97,9 +97,9 @@ const getPack = async () => {
     const packRef = doc(db.packs, packId);
     const packSnap = await getDoc(packRef);
     packData.value = packSnap.data();
-    total.value = packData.value?.totalAmountPaid;
-    totalCoach.value = packData.value?.totalAmountForCoachPaid;
-    totalGym.value = packData.value?.totalAmountForGymPaid;
+    total.value = Number(packData.value?.totalAmountPaid);
+    totalCoach.value = Number(packData.value?.totalAmountForCoachPaid);
+    totalGym.value = Number(packData.value?.totalAmountForGymPaid);
 };
 
 async function updatePack(){
@@ -108,9 +108,9 @@ async function updatePack(){
     const packRef = doc(db.packs, packId);
     try {
         await updateDoc(packRef, {
-            totalAmountForCoachPaid: totalCoach.value,
-            totalAmountForGymPaid: totalGym.value,
-            totalAmountPaid: total.value
+            totalAmountForCoachPaid: Number(totalCoach.value),
+            totalAmountForGymPaid: Number(totalGym.value),
+            totalAmountPaid: Number(total.value)
         });
         router.go(-1);
     }
