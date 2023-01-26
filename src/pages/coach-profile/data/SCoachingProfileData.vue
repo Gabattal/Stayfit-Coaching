@@ -31,6 +31,16 @@
     </div>
     <div class="info">
         <div class="line">
+            Total part coach:
+            <div
+                class="data"
+            >
+                {{ totalForCoach }}€
+            </div>
+        </div>
+    </div>
+    <div class="info">
+        <div class="line">
             Total encaissé:
             <div
                 class="data"
