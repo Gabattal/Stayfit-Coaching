@@ -21,6 +21,17 @@
     </div>
     <div class="info">
         <div class="line">
+            Total encaissé:
+            <div
+                class="data"
+            >
+                {{ totalPaid }}€
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="info">
+        <div class="line">
             Total part salle:
             <div
                 class="data"
@@ -29,6 +40,27 @@
             </div>
         </div>
     </div>
+    <div class="info">
+        <div class="line">
+            Total encaissé salle:
+            <div
+                class="data"
+            >
+                {{ totalForGymPaid }}€
+            </div>
+        </div>
+    </div>
+    <div class="info">
+        <div class="line">
+            Total restant à reverser salle:
+            <div
+                class="data"
+            >
+                {{ totalForGymToPay }}€
+            </div>
+        </div>
+    </div>
+    <br>
     <div class="info">
         <div class="line">
             Total part coach:
@@ -41,11 +73,11 @@
     </div>
     <div class="info">
         <div class="line">
-            Total encaissé:
+            Total encaissé coach:
             <div
                 class="data"
             >
-                {{ totalPaid }}€
+                {{ totalForCoachPaid }}€
             </div>
         </div>
     </div>
@@ -56,16 +88,6 @@
                 class="data"
             >
                 {{ totalForGCoachRemaining }}€
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <div class="line">
-            Total restant à reverser salle:
-            <div
-                class="data"
-            >
-                {{ totalForGymToPay }}€
             </div>
         </div>
     </div>
