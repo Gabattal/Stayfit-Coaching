@@ -32,6 +32,7 @@
             v-for="item in packs"
             :key="item.id"
             class="card"
+            :class="{green: item.totalAmount === item.totalAmountPaid}"
         >
             <div
                 class="name"
@@ -55,19 +56,19 @@
                 <div class="line">
                     Montant restant total:
                     <div class="data">
-                        {{ item.totalAmount-item.totalAmountPaid }}€
+                        {{ item.totalAmount - item.totalAmountPaid }}€
                     </div>
                 </div>
                 <div class="line">
                     Montant restant coach:
                     <div class="data">
-                        {{ item.totalAmountForCoach-item.totalAmountForCoachPaid }}€
+                        {{ item.totalAmountForCoach - item.totalAmountForCoachPaid }}€
                     </div>
                 </div>
                 <div class="line">
                     Montant restant salle :
                     <div class="data">
-                        {{ item.totalAmountForGym -item.totalAmountForGymPaid }}€
+                        {{ item.totalAmountForGym - item.totalAmountForGymPaid }}€
                     </div>
                 </div>
                 <div class="line">
@@ -89,15 +90,13 @@
 
 
 <script lang="ts">
-import { mdiDelete } from "@mdi/js";
-
 export default {
     name: "STablePack"
 };
 </script>
 
 <script setup lang="ts">
-import { query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { query, where, getDocs, doc, deleteDoc, updateDoc, increment, getDoc } from "firebase/firestore";
 import { onMounted, ref } from "vue";
 import { db, TPackCollection } from "@/firebase";
 import { router } from "@/router";
@@ -121,13 +120,11 @@ async function goToPackView(id: string, name: string) {
     await router.push({ path: "/pack", query: { customerId, customerName, "packId": id, "packName": name } });
 }
 
-function openDialog(id: string, name: string){
-    console.log(id);
+function openDialog(id: string, name: string) {
     packNameDelete.value = name;
     packIdDelete.value = id;
     dialog.value = true;
 }
-
 
 const getPacks = async () => {
     const q = query(db.packs, where("coachId", "==", coachId), where("customerId", "==", customerId));
@@ -139,15 +136,24 @@ const getPacks = async () => {
         });
     });
 
+    const userDoc = await getDoc(doc(db.customers, customerId));
+    console.log(userDoc.data());
+
     packs.value.sort((packA, packB) => {
         return packB.sessionsMonthsLeft - packA.sessionsMonthsLeft;
     });
 };
 
-async function deletePack(){
+async function deletePack() {
     dialog.value = false;
     const packRef = doc(db.packs, packIdDelete.value);
+    const packSnap = await getDoc(packRef);
     await deleteDoc(doc(db.packs, packIdDelete.value));
+    const customerRef = doc(db.customers, customerId);
+    await updateDoc(customerRef, {
+        numberOfPacks: increment(-1),
+        numberOfPacksPaid: increment(packSnap.data()?.totalAmountPaid === packSnap.data()?.totalAmount ? -1 : 0)
+    });
     packs.value = [];
     await getPacks();
 
@@ -160,12 +166,13 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 
-.card-actions{
+.card-actions {
     width: 100%;
     display: flex;
     justify-content: space-between;
     padding: var(--length-padding-m);
 }
+
 .table-coach {
     display: flex;
     flex-direction: column;
@@ -180,13 +187,18 @@ onMounted(async () => {
         gap: var(--length-gap-xs);
         cursor: pointer;
 
+        &.green {
+            background: green;
+        }
+
 
         .name {
             font-weight: bold;
             font-size: 1.25rem;
             display: flex;
             justify-content: space-between;
-            .actions{
+
+            .actions {
                 display: flex;
             }
         }
@@ -196,7 +208,7 @@ onMounted(async () => {
             flex-direction: column;
         }
 
-        .line{
+        .line {
             display: flex;
         }
 

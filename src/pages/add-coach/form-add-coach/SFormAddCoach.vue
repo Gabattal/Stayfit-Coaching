@@ -94,7 +94,6 @@ async function saveCoach(){
 
 const getCoachData = async () => {
     const userDoc = await getDoc(doc(db.users, coachId));
-    console.log(userDoc.data());
     last_name.value = userDoc.data()?.last_name || "";
     first_name.value = userDoc.data()?.first_name || "";
     phone.value = userDoc.data()?.phone || "";

@@ -4,6 +4,7 @@
             v-for="customer in customers"
             :key="customer.id"
             class="card"
+            :class="{green: customer.numberOfPacks === customer.numberOfPacksPaid}"
         >
             <div class="info">
                 <div
@@ -59,7 +60,7 @@ const coachName = urlParams.get("coachName")?.toString();
 const userStore = useUserStore();
 const isAdmin = userStore.isAdmin;
 
-type Customer = TCustomerCollection & {id: string};
+type Customer = TCustomerCollection & {id: string ;hasPaid?: boolean};
 const customers = ref<Customer[]>([]);
 
 async function goToCustomerView(id: string, name: string) {
@@ -81,7 +82,9 @@ const getCustomers = async () => {
             });
         });
     }
+
     customers.value.sort((customerA, customerB) => customerA.last_name.localeCompare(customerB.last_name));
+
 };
 
 onMounted(async () => {
@@ -104,6 +107,10 @@ onMounted(async () => {
         display: flex;
         flex-direction: column;
         gap: var(--length-gap-xs);
+
+        &.green {
+            background: green;
+        }
 
         .name{
             font-weight: bold;

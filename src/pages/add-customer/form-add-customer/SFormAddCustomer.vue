@@ -79,7 +79,7 @@ export default {
 
 <script setup lang="ts">
 
-import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { onMounted, ref } from "vue";
 import SButton from "@/design/form/SButton.vue";
 import { db, firestore, TCustomerCollection } from "@/firebase";
@@ -142,7 +142,13 @@ async function saveCustomer() {
         "phone": phone.value
     };
     if (coachId && !customerId) {
-        await addDoc(collection(firestore, "customers"), data);
+        const newData = {
+            "numberOfPacks": 0,
+            "numberOfPacksPaid": 0
+        };
+
+        const dataForNewCustomer = Object.assign(data, newData);
+        await addDoc(collection(firestore, "customers"), dataForNewCustomer);
         router.go(-1);
     }
     else if (coachId && customerId){
@@ -153,8 +159,8 @@ async function saveCustomer() {
 
 const getCustomerData = async () => {
     const userDoc = await getDoc(doc(db.customers, customerId));
+
     customerData.value = userDoc.data();
-    console.log(userDoc.data());
     last_name.value = userDoc.data()?.last_name || "";
     first_name.value = userDoc.data()?.first_name || "";
     phone.value = userDoc.data()?.phone || "";

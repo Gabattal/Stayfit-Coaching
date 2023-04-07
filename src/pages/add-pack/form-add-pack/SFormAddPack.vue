@@ -85,7 +85,7 @@ export default {
 <script setup lang="ts">
 
 import { ref } from "vue";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, increment, updateDoc } from "firebase/firestore";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
@@ -207,6 +207,11 @@ async function savePack() {
         };
 
         await addDoc(collection(firestore, "packs"), data);
+
+        const customerRef = doc(db.customers, customerId);
+        await updateDoc(customerRef, {
+            numberOfPacks: increment(1)
+        });
 
         await router.go(-1);
     }

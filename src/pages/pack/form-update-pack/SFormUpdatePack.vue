@@ -90,6 +90,7 @@ const totalCoach = ref(0);
 const totalGym = ref(0);
 const userStore = useUserStore();
 const isAdmin = userStore.isAdmin;
+const customerId = urlParams.get("customerId")?.toString();
 const packId = urlParams.get("packId")?.toString();
 const snackbarState = ref(false);
 
@@ -104,7 +105,6 @@ const getPack = async () => {
 
 async function updatePack(){
 
-    
     const packRef = doc(db.packs, packId);
     try {
         await updateDoc(packRef, {
@@ -112,6 +112,12 @@ async function updatePack(){
             totalAmountForGymPaid: Number(totalGym.value),
             totalAmountPaid: Number(total.value)
         });
+        if (Number(total.value) === packData.value?.totalAmount){
+            const customerRef = doc(db.customers, customerId);
+            await updateDoc(customerRef, {
+                numberOfPacksPaid: increment(1)
+            });
+        }
         router.go(-1);
     }
     catch (error) {
