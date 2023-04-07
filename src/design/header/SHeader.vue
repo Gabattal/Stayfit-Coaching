@@ -21,5 +21,6 @@ import SDisconnectButton from "@/design/header/buttons/SDisconnectButton.vue";
      align-items: center;
      justify-content: space-between;
      padding: var(--length-padding-m);
+     user-select: none;
  }
 </style>
