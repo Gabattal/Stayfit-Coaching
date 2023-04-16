@@ -32,7 +32,14 @@
             v-for="item in packs"
             :key="item.id"
             class="card"
-            :class="{green: item.totalAmount === item.totalAmountPaid}"
+            :class="{
+                green: Number(item.totalAmount) === Number(item.totalAmountPaid) &&
+                    Number(item.totalAmountForCoach) === Number(item.totalAmountForCoachPaid) &&
+                    Number(item.totalAmountForGym) === Number(item.totalAmountForGymPaid),
+                orange: Number(item.totalAmount) === Number(item.totalAmountPaid) &&
+                    (Number(item.totalAmountForCoach) !== Number(item.totalAmountForCoachPaid) ||
+                        Number(item.totalAmountForGym) !== Number(item.totalAmountForGymPaid))
+            }"
         >
             <div
                 class="name"
@@ -152,6 +159,9 @@ async function deletePack() {
     const customerRef = doc(db.customers, customerId);
     await updateDoc(customerRef, {
         numberOfPacks: increment(-1),
+        numberOfPacksFullPaid: increment((packSnap.data()?.totalAmountPaid === packSnap.data()?.totalAmount &&
+            packSnap.data()?.totalAmountForGymPaid === packSnap.data()?.totalAmountForGym &&
+            packSnap.data()?.totalAmountForCoachPaid === packSnap.data()?.totalAmountForCoach) ? -1 : 0),
         numberOfPacksPaid: increment(packSnap.data()?.totalAmountPaid === packSnap.data()?.totalAmount ? -1 : 0)
     });
     packs.value = [];
@@ -188,7 +198,11 @@ onMounted(async () => {
         cursor: pointer;
 
         &.green {
-            background: green;
+            background: darkgreen;
+        }
+
+        &.orange {
+            background: darkorange;
         }
 
 

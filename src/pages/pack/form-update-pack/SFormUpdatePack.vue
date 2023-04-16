@@ -107,17 +107,27 @@ async function updatePack(){
 
     const packRef = doc(db.packs, packId);
     try {
-        await updateDoc(packRef, {
-            totalAmountForCoachPaid: Number(totalCoach.value),
-            totalAmountForGymPaid: Number(totalGym.value),
-            totalAmountPaid: Number(total.value)
-        });
-        if (Number(total.value) === packData.value?.totalAmount){
+        if (Number(total.value) === packData.value?.totalAmount &&
+            packData.value?.totalAmount !== packData.value?.totalAmountPaid){
             const customerRef = doc(db.customers, customerId);
             await updateDoc(customerRef, {
                 numberOfPacksPaid: increment(1)
             });
         }
+        if (Number(totalGym.value) === packData.value?.totalAmountForGym &&
+            Number(totalCoach.value) === packData.value?.totalAmountForCoach &&
+            (packData.value?.totalAmountForGymPaid !== packData.value?.totalAmountForGym &&
+                packData.value?.totalAmountForCoachPaid !== packData.value?.totalAmountForCoach)){
+            const customerRef = doc(db.customers, customerId);
+            await updateDoc(customerRef, {
+                numberOfPacksFullPaid: increment(1)
+            });
+        }
+        await updateDoc(packRef, {
+            totalAmountForCoachPaid: Number(totalCoach.value),
+            totalAmountForGymPaid: Number(totalGym.value),
+            totalAmountPaid: Number(total.value)
+        });
         router.go(-1);
     }
     catch (error) {

@@ -38,6 +38,7 @@ export type TCustomerCollection = {
     last_name: string;
     mail: string;
     numberOfPacks: number;
+    numberOfPacksFullPaid: number;
     numberOfPacksPaid: number;
     objectivePrecision: string;
     objectives: [];

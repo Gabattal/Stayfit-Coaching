@@ -12,6 +12,7 @@ import SCustomerProfile from "@/pages/customer-profile/SCustomerProfile.vue";
 import SCoachProfileLayout from "@/pages/coach-profile/SCoachProfileLayout.vue";
 import SAdminProfileLayout from "@/pages/admin-profile/SAdminProfileLayout.vue";
 import SLostPasswordLayout from "@/pages/lost-password/SLostPasswordLayout.vue";
+import SScripts from "@/pages/scripts/SScripts.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -28,6 +29,7 @@ export const router = createRouter({
         { component: SPackLayout, path: "/pack" },
         { component: SaddCustomer, path: "/add-customer" },
         { component: SAddCoach, path: "/add-coach" },
-        { component: SAddPack, path: "/add-pack" }
+        { component: SAddPack, path: "/add-pack" },
+        { component: SScripts, path: "/scripts" }
     ]
 });

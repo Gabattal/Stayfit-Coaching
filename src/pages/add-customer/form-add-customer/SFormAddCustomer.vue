@@ -144,6 +144,7 @@ async function saveCustomer() {
     if (coachId && !customerId) {
         const newData = {
             "numberOfPacks": 0,
+            "numberOfPacksFullPaid": 0,
             "numberOfPacksPaid": 0
         };
 

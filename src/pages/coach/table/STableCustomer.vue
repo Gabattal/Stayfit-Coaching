@@ -4,7 +4,10 @@
             v-for="customer in customers"
             :key="customer.id"
             class="card"
-            :class="{green: customer.numberOfPacks === customer.numberOfPacksPaid}"
+            :class="{
+                orange: customer.numberOfPacks === customer.numberOfPacksPaid && customer.numberOfPacks !== customer.numberOfPacksFullPaid,
+                green: customer.numberOfPacks === customer.numberOfPacksFullPaid
+            }"
         >
             <div class="info">
                 <div
@@ -13,7 +16,7 @@
                 >
                     {{ customer.last_name }} {{ customer.first_name }}
                 </div>
-                
+
                 <v-icon
                     icon="mdi-information-outline"
                     size="large"
@@ -60,7 +63,7 @@ const coachName = urlParams.get("coachName")?.toString();
 const userStore = useUserStore();
 const isAdmin = userStore.isAdmin;
 
-type Customer = TCustomerCollection & {id: string ;hasPaid?: boolean};
+type Customer = TCustomerCollection & { id: string; hasPaid?: boolean };
 const customers = ref<Customer[]>([]);
 
 async function goToCustomerView(id: string, name: string) {
@@ -72,8 +75,8 @@ async function goToCustomerProfile(id: string, name: string) {
 }
 
 const getCustomers = async () => {
-    if (coachId){
-        const q = query(db.customers,where("coachId", "==", coachId));
+    if (coachId) {
+        const q = query(db.customers, where("coachId", "==", coachId));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             customers.value.push({
@@ -109,15 +112,19 @@ onMounted(async () => {
         gap: var(--length-gap-xs);
 
         &.green {
-            background: green;
+            background: darkgreen;
         }
 
-        .name{
+        &.orange {
+            background: darkorange;
+        }
+
+        .name {
             font-weight: bold;
             font-size: 1.25rem;
         }
 
-        .mail{
+        .mail {
             padding-right: var(--length-padding-xs);
         }
 
@@ -127,8 +134,8 @@ onMounted(async () => {
             flex-wrap: wrap;
         }
 
-        .precisions{
-            color : var(--color-content-softer);
+        .precisions {
+            color: var(--color-content-softer);
             display: flex;
             flex-direction: column;
             //justify-content: space-between;
