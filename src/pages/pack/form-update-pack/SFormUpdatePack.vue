@@ -114,10 +114,10 @@ async function updatePack(){
                 numberOfPacksPaid: increment(1)
             });
         }
-        if (Number(totalGym.value) === packData.value?.totalAmountForGym &&
-            Number(totalCoach.value) === packData.value?.totalAmountForCoach &&
-            (packData.value?.totalAmountForGymPaid !== packData.value?.totalAmountForGym &&
-                packData.value?.totalAmountForCoachPaid !== packData.value?.totalAmountForCoach)){
+        if (Number(totalGym.value) === Number(packData.value?.totalAmountForGym) &&
+            Number(totalCoach.value) === Number(packData.value?.totalAmountForCoach) &&
+            (Number(packData.value?.totalAmountForGymPaid) !== Number(packData.value?.totalAmountForGym) ||
+                Number(packData.value?.totalAmountForCoachPaid) !== Number(packData.value?.totalAmountForCoach))){
             const customerRef = doc(db.customers, customerId);
             await updateDoc(customerRef, {
                 numberOfPacksFullPaid: increment(1)
